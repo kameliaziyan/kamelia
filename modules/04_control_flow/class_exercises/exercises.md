@@ -102,9 +102,13 @@ Write at least 3 unit tests covering different heights and validation cases.
 ## Exercise folder structure
 ```
     04_control_flow
-    ├───solution
-    ├───tests
-    └───venv
+    ├─── .vscode/
+    ├─── solution/
+    ├─── tests/
+    ├─── venv/
+    ├─── .gitignore
+    ├─── exercises.md (Optional)
+    └─── requirements.txt
 ```
 
 ## Running Your Tests
