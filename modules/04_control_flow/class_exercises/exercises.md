@@ -99,17 +99,26 @@ Write at least 3 unit tests covering different heights and validation cases.
 
 ---
 
+## Exercise folder structure
+```
+    04_control_flow
+    ├───solution
+    ├───tests
+    └───venv
+```
+
 ## Running Your Tests
 
 To run the tests:
 
 ```bash
-cd modules/04_Control_Flow/class_exercises/solutions
-source ../../../../venv/bin/activate && pytest tests/
+cd 04_control_flow
+source .\venv\Scriptsn\activate 
+pytest
 ```
 
-To run a specific test file:
+To run a specific test file (Assuming venv is activated):
 
 ```bash
-source ../../../../venv/bin/activate && pytest tests/test_exercise1.py -v
+pytest .\tests\test_exercise1.py 
 ```
