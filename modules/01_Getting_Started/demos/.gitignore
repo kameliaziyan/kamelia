@@ -4,6 +4,8 @@ venv/
 # Ignore PyCharm project settings folder
 .idea/
 
+.vscode/
+
 # Ignore Python bytecode and cache directories
 __pycache__/
 *.py[cod]
