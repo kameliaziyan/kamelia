@@ -10,6 +10,33 @@
 - If the functions is long (beyond 15 lines of code), divide into more functions.
 
 
+
+## Exercise 1: Count Calls Decorator
+
+**Description:**
+Create a decorator called `count_calls` that tracks how many times a decorated function has been called. The decorator should add a `call_count` attribute to the function that can be accessed to get the current count.
+
+**Requirements:**
+- Implement a `count_calls` decorator that increments a counter each time the decorated function is called
+- The decorator should work with functions that have any number of arguments
+- The decorator should preserve the original function's return value
+- The counter should be accessible via the `call_count` attribute on the function
+- Include type hints for the decorator
+- Write at least 3 unit tests covering different scenarios
+
+**Example:**
+
+```python
+@count_calls
+def greet(name: str) -> str:
+    return f"Hello, {name}!"
+
+print(greet("Alice"))  # Output: "Hello, Alice!"
+print(greet("Bob"))    # Output: "Hello, Bob!"
+print(greet.call_count)  # Output: 2
+```
+
+
 ## Exercise 2: Flexible Statistics Calculator
 
 **Description:**
@@ -39,3 +66,4 @@ print(result)
 #     'humidity': {'sum': 255, 'average': 63.75, 'min': 60, 'max': 68}
 # }
 ```
+

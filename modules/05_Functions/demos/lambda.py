@@ -1,6 +1,8 @@
 """
 Demo - Lambda Expressions
 """
+from time import sleep
+from typing import Callable
 
 
 def square(a):
@@ -13,3 +15,11 @@ squares = list(map_object)
 
 print(map_object)
 print(squares)
+
+
+def sleep_and_call(seconds: int, callback: Callable) -> None:
+    sleep(seconds)
+    callback()
+
+
+sleep_and_call(5, lambda: print('Hello'))

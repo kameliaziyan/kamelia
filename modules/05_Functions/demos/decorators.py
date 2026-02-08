@@ -18,7 +18,6 @@ def log_function_params(func):
 
 def repeat(times):
     def decorator_repeat(func):
-        @wraps(func)
         def wrapper(*args, **kwargs):
             inner_result = None
             for _ in range(times):
@@ -29,20 +28,12 @@ def repeat(times):
 
 
 @log_function_params
-@repeat(times=4)
 def add(a: int, b: int) -> int:
     print('I am here')
     return a + b
 
 
-result = add(1,2)
-print(result)
-print(add.__name__)
-
-
-# ----
-
-
-
-
-
+if __name__ == '__main__':
+    result = add(1,2)
+    print(result)
+    print(add.__name__)
