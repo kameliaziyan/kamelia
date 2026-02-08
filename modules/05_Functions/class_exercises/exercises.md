@@ -67,3 +67,37 @@ print(result)
 # }
 ```
 
+
+## Exercise 3: List Operations with Lambda
+
+**Description:**
+Create three functions that use lambda expressions to perform operations on lists of dictionaries. Each function should transform or filter data representing people with their names and ages.
+
+**Requirements:**
+- Implement `filter_adults(people: list[dict]) -> list[dict]` - returns only people who are 18 or older
+- Implement `get_names(people: list[dict]) -> list[str]` - returns a list of names only
+- Implement `sort_by_age(people: list[dict]) -> list[dict]` - returns people sorted by age in ascending order
+- All three functions must use lambda expressions in their implementation
+- Include type hints for function arguments and return values
+- Write at least 3 unit tests for each function
+
+**Example:**
+
+```python
+people = [
+    {"name": "Alice", "age": 25},
+    {"name": "Bob", "age": 17},
+    {"name": "Charlie", "age": 30},
+    {"name": "Diana", "age": 16}
+]
+
+adults = filter_adults(people)
+# Output: [{"name": "Alice", "age": 25}, {"name": "Charlie", "age": 30}]
+
+names = get_names(people)
+# Output: ["Alice", "Bob", "Charlie", "Diana"]
+
+sorted_people = sort_by_age(people)
+# Output: [{"name": "Diana", "age": 16}, {"name": "Bob", "age": 17},
+#          {"name": "Alice", "age": 25}, {"name": "Charlie", "age": 30}]
+```
