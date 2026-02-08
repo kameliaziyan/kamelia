@@ -1,3 +1,6 @@
+from pprint import pprint
+
+
 INITIAL_FUEL = 10
 
 
@@ -12,6 +15,10 @@ class Spaceship:
         self.fuel += amount
         print(f"{self.name} has been refueled with {amount}. Current fuel: {self.fuel}")
 
+    def __self_destruct(self) -> None:
+        print(f"{self.name} is self-destructing!")
+        self.fuel = 0
+
     @classmethod
     def create_cargo_ship(cls, name: str) -> 'Spaceship':
         return cls(name, "Cargo", "Standard Fuel", 7)
@@ -20,13 +27,22 @@ class Spaceship:
     def create_battle_ship(cls, name: str) -> 'Spaceship':
         return cls(name, "Battle", "High-Grade Fuel", 50)
 
+    def __str__(self) -> str:
+        return f"{self.name} ({self.type}) - Fuel: {self.fuel} ({self.fuel_type})"
+    
+    def __repr__(self) -> str:
+        return f"Spaceship(name='{self.name}', type='{self.type}', fuel_type='{self.fuel_type}', fuel={self.fuel})"
+
+    def __lt__(self, other: 'Spaceship') -> bool:
+        if not isinstance(other, Spaceship):
+            return NotImplemented
+        return self.fuel < other.fuel
+
 
 if __name__ == "__main__":
     cargo_ship = Spaceship.create_cargo_ship("CargoMaster")
     battle_ship = Spaceship.create_battle_ship("Warrior")
 
-    print(f"{cargo_ship.name} is a {cargo_ship.type} ship with {cargo_ship.fuel} fuel.")
-    print(f"{battle_ship.name} is a {battle_ship.type} ship with {battle_ship.fuel} fuel.")
-
-    cargo_ship.refuel(5)
-    battle_ship.refuel(20)
+    # print(str(cargo_ship))
+    # print(repr(cargo_ship))
+    pprint(dir(cargo_ship))
