@@ -22,11 +22,6 @@
 
 Before starting the exercises, you need to set up the linting tools.
 
-### 1. Copy Linter Configuration Files
-
-Copy the linter configuration files from the `linter-config/` directory in the repository root to your exercise working directory:
-
-
 ### 2. Install Linter Packages
 
 Install the required linter tools in your virtual environment:
