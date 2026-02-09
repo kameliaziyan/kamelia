@@ -3,6 +3,7 @@ Example module to demonstrate the power of linters and formatters.
 This code intentionally violates many best practices!
 """
 
+
 def calculate_test_statistics(scores):
     """
     Calculate statistics for a list of test scores.
@@ -62,11 +63,18 @@ def calculate_test_statistics(scores):
         h = 0
         l = 0
 
-    return {'average': a, 'highest': h, 'lowest': l, 'passed': p, 'failed': f, 'pass_rate': pr}
+    return {
+        "average": a,
+        "highest": h,
+        "lowest": l,
+        "passed": p,
+        "failed": f,
+        "pass_rate": pr,
+    }
 
 
 # Example usage
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_scores = [85, 92, 78, 45, 88, 67, 95, 54, 73, 81]
 
     result = calculate_test_statistics(test_scores)
