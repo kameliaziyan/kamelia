@@ -73,7 +73,7 @@ def it_command_simulator(command : str) -> str :
 
 
 
-enter_command = 'git stash push -m kamelia'
+enter_command = 'git stash apply kamelia'
 print(it_command_simulator(enter_command))
 
 ## output - 'Unstage file readme.md while retaining the changes in the working directory.'
