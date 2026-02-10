@@ -1,4 +1,4 @@
-from solution.StudentGradeClassifier import classify_grade
+from solution.student_grade_classifier import classify_grade
 import pytest
 
 

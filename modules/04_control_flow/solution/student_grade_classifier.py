@@ -1,5 +1,4 @@
 def classify_grade(score: int) -> str :
-    #############################
 
     if score < 0 or score > 100 :
         raise ValueError("Score must be between 0 and 100.")

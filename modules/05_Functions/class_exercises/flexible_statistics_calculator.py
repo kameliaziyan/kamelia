@@ -1,7 +1,8 @@
 from typing import Dict, List, Optional
 
-
-def calculate_statistics(**options: List[float]) -> Dict[str, Dict[str, Optional[float]]]:
+############ לשאול על ערך החזרת הפונקציה 
+def calculate_statistics(**options: List[float]) -> dict :
+    
     result = {}
 
     for name, values in options.items():

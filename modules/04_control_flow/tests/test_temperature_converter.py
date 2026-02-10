@@ -1,4 +1,4 @@
-from solution.TemperatureConverter import convert_temperature
+from solution.temperature_converter import convert_temperature
 
 
 def test_celsius_to_fahrenheit():
