@@ -114,7 +114,3 @@ def Calculator() -> str:
             continue
 
     return "Good Bye <3"
-
-
-# multiply 2 by 5
-print(Calculator())

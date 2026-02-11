@@ -31,7 +31,7 @@ DESCRIPTION_STASH_APPLY_NAME = (
 )
 
 
-def it_command_simulator(command: str) -> str:
+def git_command_simulator(command: str) -> str:
 
     len_command = len(command.split())
     # print(len_command)
@@ -84,8 +84,7 @@ def it_command_simulator(command: str) -> str:
     return "Error: Unsupported or invalid git command."
 
 
-enter_command = 'git commit -m "all done"'
-print(it_command_simulator(enter_command))
+
 
 
 # git_add = "git add <filename>"
