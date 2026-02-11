@@ -1,11 +1,10 @@
-from typing import Dict, List, Optional
+from typing import List
 
-############ לשאול על ערך החזרת הפונקציה 
-def calculate_statistics(**options: List[float]) -> dict :
+def calculate_statistics(**kwargs : List[float]) -> dict :
     
     result = {}
 
-    for name, values in options.items():
+    for name, values in kwargs.items():
         if not values:
             result[name] = {
                 "sum": None,

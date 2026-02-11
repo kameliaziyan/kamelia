@@ -1,4 +1,4 @@
-from class_exercises.flexible_statistics_calculator import calculate_statistics
+from solution.flexible_statistics_calculator import calculate_statistics
 
 
 def test_single_dataset():
