@@ -1,128 +1,120 @@
-  #- "add 2 t0 5" 
-  #- "subtract 2 from 5"
-  #- "multiply 2 by 5"
-  #- "divide 10 by 5"
+# - "add 2 t0 5"
+# - "subtract 2 from 5"
+# - "multiply 2 by 5"
+# - "divide 10 by 5"
 
-def add(line : list[str] ) -> str:
-    if line[2] == "to" :
-         
+
+def add(line: list[str]) -> str:
+    if line[2] == "to":
+
         a = int(line[1])
         b = int(line[3])
 
         result = a + b
-        return (f"The answer is {result}")
+        return f"The answer is {str(result)}"
     else:
-        return("invalid operation")
-    
-
-         
+        return "invalid operation"
 
 
-def subtract(line : list[str] ) -> str :
-    if line[2] == "from" :
-         
+def subtract(line: list[str]) -> str:
+    if line[2] == "from":
+
         a = int(line[1])
         b = int(line[3])
 
         result = b - a
-        return (f"The answer is {result}")
+        return f"The answer is {str(result)}"
     else:
-        return("invalid operation")
+        return "invalid operation"
 
-def multiply(line : list[str] ) -> str :
-    if line[2] == "by" :
-         
+
+def multiply(line: list[str]) -> str:
+    if line[2] == "by":
+
         a = int(line[1])
         b = int(line[3])
 
         result = a * b
-        return (f"The answer is {result}")
+        return f"The answer is {str(result)}"
     else:
-        return("invalid operation")
+        return "invalid operation"
 
-def divide(line : list[str] ) -> str :
-    if line[2] == "by" :
-         
+
+def divide(line: list[str]) -> str:
+    if line[2] == "by":
+
         a = int(line[1])
         b = int(line[3])
-        if b == 0 :
+        if b == 0:
             print("invalid operation")
-            return
-
+            return "invalid operation"
 
         result = a / b
-        return (f"The answer is {result}")
+        return f"The answer is {str(result)}"
     else:
-        return("invalid operation")
+        return "invalid operation"
 
-def Calculator( ) -> None:
+
+def Calculator() -> str:
 
     while True:
         data = input("enters a valid operation ")
-        if not data :
-             print("invalid operation")
-             continue
-        
+        if not data:
+            print("invalid operation")
+            continue
 
-        if data.lower() == 'exit':
-                break
-        
+        if data.lower() == "exit":
+            break
+
         words = data.split()
 
         if len(words) == 1:
             if words[0] == "help":
                 print(
-            "Available commands:\n"
-            "add 2 to 5\n"
-            "subtract 2 from 5\n"
-            "multiply 2 by 5\n"
-            "divide 10 by 5\n"
-        )
+                    "Available commands:\n"
+                    "add 2 to 5\n"
+                    "subtract 2 from 5\n"
+                    "multiply 2 by 5\n"
+                    "divide 10 by 5\n"
+                )
                 continue
             else:
                 print("invalid operation")
                 continue
 
-
-
-
         if len(words) not in (1, 4):
             print("invalid operation")
             continue
 
-
         try:
-            a = int(words[1])
-            b = int(words[3])
+            int(words[1])
+            int(words[3])
         except ValueError:
             print("invalid operation")
             continue
 
-
         if words[0] == "add":
-             print (add(words))
-             continue
-        
-        if words[0] == "subtract":
-             print (subtract(words))
-             continue
-        
-        if words[0] == "divide":
-             print (divide(words))
-             continue
-        
-        if words[0] == "multiply":
-             print (multiply(words))
-             continue
-        
-
-        else :
-            print( "invalid operation")
+            print(add(words))
             continue
 
-             
+        if words[0] == "subtract":
+            print(subtract(words))
+            continue
 
-    return
+        if words[0] == "divide":
+            print(divide(words))
+            continue
 
-#multiply 2 by 5
+        if words[0] == "multiply":
+            print(multiply(words))
+            continue
+
+        else:
+            print("invalid operation")
+            continue
+
+    return "Good Bye <3"
+
+
+# multiply 2 by 5
 print(Calculator())
