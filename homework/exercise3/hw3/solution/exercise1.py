@@ -1,66 +1,71 @@
 from functools import wraps
 
-# `int`, `float`, `str`, `list`, `dict`, `bool`, and `NoneType`.
 
-
-# "Alice", 30, {"key": "value"}, 1234)
 def type_check(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        data_type_dict = func.__annotations__
-        lst_given_type = []
+        """
+        A decorator that checks whether the function's arguments and return
+        value match the defined in the type annotations.
+        """
+        annotations = func.__annotations__
+        given_arg_type_names = []
 
         # current given data input list
-        for i, typ in enumerate(args):
-            # print (type(typ))
-            current_type = type(typ).__name__
-            lst_given_type.append(current_type)
+        for arg in args:
+            given_arg_type_names.append(type(arg).__name__)
+        # for i, typ in enumerate(args):
+        #   # print (type(typ))
+        #  current_type = type(typ).__name__
+        # lst_given_type.append(current_type)
 
         # expected input list
-        lst_expected_type = []
-        names_inputs = []
-        for name, expect_type in data_type_dict.items():
-            if name == "return":
+        expected_arg_type_names = []
+        parameter_names = []
+        for param_name, expected_type in annotations.items():
+            if param_name == "return":
                 continue
-            expected_type = expect_type.__name__
-            lst_expected_type.append(expected_type)
-            names_inputs.append(name)
+
+            # expected_type = expect_type.__name__
+            expected_arg_type_names.append(expected_type.__name__)
+            parameter_names.append(param_name)
 
         all_types = ("int", "float", "str", "list", "dict", "bool", "NoneType")
 
-        for key, value in kwargs.items():
-            if key in names_inputs:
-                expect_type_key = data_type_dict[key].__name__
-                given_type_key = type(value).__name__
+        for kwarg_name, kwarg_vale in kwargs.items():
+            if kwarg_name in parameter_names:
+                expected_type_key = annotations[kwarg_name].__name__
+                actual_type_key = type(kwarg_vale).__name__
 
-                if expect_type_key in all_types:
-                    if given_type_key != expect_type_key:
+                if expected_type_key in all_types:
+                    if actual_type_key != expected_type_key:
 
                         raise TypeError(
-                            f"Argument '{key}' must be of type {expect_type_key}, "
-                            f"got {given_type_key} instead."
+                            f"Argument '{kwarg_name}' must be of type {expected_type_key}, "
+                            f"got {actual_type_key} instead."
                         )
 
-        for i in range(len(lst_expected_type)):
-            if lst_expected_type[i] in all_types:
-                if lst_given_type[i] != lst_expected_type[i]:
+        for index in range(len(expected_arg_type_names)):
+            if expected_arg_type_names[index] in all_types:
+                if given_arg_type_names[index] != expected_arg_type_names[index]:
 
                     raise TypeError(
-                        f"Argument '{names_inputs[i]}' must be of type {lst_expected_type[i]}, "
-                        f"got {type(lst_given_type[i]).__name__} instead."
+                        f"Argument '{parameter_names
+                                     [index]}' must be of type {expected_arg_type_names[index]}, "
+                        f"got {type(given_arg_type_names[index]).__name__} instead."
                     )
         result = func(*args, **kwargs)
 
-        if "return" in data_type_dict:
-            expected_return_type = data_type_dict["return"].__name__
-            given_return_type = type(result).__name__
-            if expected_return_type in all_types:
-                if given_return_type != expected_return_type:
+        if "return" in annotations:
+            expected_return_type_name = annotations["return"].__name__
+            actual_return_type_name = type(result).__name__
+            if expected_return_type_name in all_types:
+                if actual_return_type_name != expected_return_type_name:
 
                     raise TypeError(
-                        f"Return value must be of type {expected_return_type}, "
-                        f"got {given_return_type} instead."
+                        f"Return value must be of type {expected_return_type_name}, "
+                        f"got {actual_return_type_name} instead."
                     )
 
         return result
@@ -75,11 +80,10 @@ def format_data(name: str, age: int, data: dict, other_info=None) -> str:
 
 
 # Test the function with correct types
-print(format_data("Alice", 30, {"key": "value"}, 1234))
-
+# print(format_data("Alice", 30, {"key": "value"}, 1234))
 
 # print(format_data.__annotations__)
 
 # Test the function with incorrect types
-print(format_data("Alice", "thirty", {"key": "value"}))
+# print(format_data("Alice", "thirty", {"key": "value"}))
 # print(len(format_data.__annotations__))

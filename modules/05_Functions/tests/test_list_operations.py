@@ -1,7 +1,6 @@
 from solution.list_operations import filter_adults, get_names, sort_by_age
 
 
-
 def test_filter_adults_basic():
     people = [
         {"name": "Alice", "age": 25},
@@ -11,9 +10,6 @@ def test_filter_adults_basic():
     result = filter_adults(people)
 
     assert result == [{"name": "Alice", "age": 25}]
-
-
-
 
 
 

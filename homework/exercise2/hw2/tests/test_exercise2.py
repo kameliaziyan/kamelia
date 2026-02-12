@@ -1,77 +1,55 @@
-from solution.exercise2 import Calculator
-from _pytest.capture import CaptureFixture
-from _pytest.monkeypatch import MonkeyPatch
+import io
+from unittest.mock import patch
+from solution.exercise2 import Calculator, divide, multiply, subtract
+from solution.exercise2 import add
 
 
-
-def test_calculator_add(
-    monkeypatch: MonkeyPatch,
-    capsys: CaptureFixture[str],
-) -> None:
-    inputs = iter(["add 2 to 5", "exit"])
-    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
-    Calculator()
-
-    captured = capsys.readouterr()
-    assert "The answer is 7" in captured.out
+def test_add() -> None:
+    assert add(["add", "2", "to", "5"]) == "The answer is 7"
+    assert add(["add", "10", "to", "0"]) == "The answer is 10"
+    assert add(["add", "2", "from", "5"]) == "invalid operation"
 
 
-def test_calculator_invalid_operation(
-    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-) -> None:
-    inputs = iter(["power 2 to 5", "exit"])
-    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
-    Calculator()
-
-    captured = capsys.readouterr()
-    assert "invalid operation" in captured.out
+def test_subtract() -> None:
+    assert subtract(["subtract", "2", "from", "5"]) == "The answer is 3"
+    assert subtract(["subtract", "5", "from", "5"]) == "The answer is 0"
+    assert subtract(["subtract", "2", "to", "5"]) == "invalid operation"
 
 
-def test_calculator_help_command(
-    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-) -> None:
-    inputs = iter(["help", "exit"])
-    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
-    Calculator()
-
-    captured = capsys.readouterr()
-    assert "Available commands" in captured.out
+def test_multiply() -> None:
+    assert multiply(["multiply", "2", "by", "5"]) == "The answer is 10"
+    assert multiply(["multiply", "0", "by", "5"]) == "The answer is 0"
+    assert multiply(["multiply", "2", "to", "5"]) == "invalid operation"
 
 
-def test_calculator_invalid_sentence(
-    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-) -> None:
-    inputs = iter(["add 2 5", "exit"])
-    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
-    Calculator()
-
-    captured = capsys.readouterr()
-    assert "invalid operation" in captured.out
+def test_divide() -> None:
+    assert divide(["divide", "10", "by", "5"]) == "The answer is 2.0"
+    assert divide(["divide", "5", "by", "2"]) == "The answer is 2.5"
+    assert divide(["divide", "10", "by", "0"]) == "invalid operation"
+    assert divide(["divide", "10", "to", "5"]) == "invalid operation"
 
 
-def test_calculator_non_numeric_input(
-    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-) -> None:
-    inputs = iter(["add two to five", "exit"])
-    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+def test_calculator()-> None:
+    user_inputs = [
+        "add 2 to 5",
+        "subtract 2 from 5",
+        "multiply 2 by 5",
+        "divide 10 by 5",
+        "exit",
+    ]
 
-    Calculator()
+    expected_outputs = [
+        "The answer is 7",
+        "The answer is 3",
+        "The answer is 10",
+        "The answer is 2.0",
+    ]
+    with patch("builtins.input", side_effect=user_inputs):
+        with patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
+            result = Calculator()
+            output = mock_stdout.getvalue()
 
-    captured = capsys.readouterr()
-    assert "invalid operation" in captured.out
+            for expected in expected_outputs:
+                assert expected in output
 
-
-def test_calculator_invalid_divide_format(
-    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-) -> None:
-    inputs = iter(["multiply 2 kamelia 7", "exit"])
-    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
-    Calculator()
-
-    captured = capsys.readouterr()
-    assert "invalid operation" in captured.out
+            assert result == "Good Bye <3"
