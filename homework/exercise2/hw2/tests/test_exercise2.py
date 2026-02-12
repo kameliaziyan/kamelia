@@ -3,6 +3,7 @@ from _pytest.capture import CaptureFixture
 from _pytest.monkeypatch import MonkeyPatch
 
 
+
 def test_calculator_add(
     monkeypatch: MonkeyPatch,
     capsys: CaptureFixture[str],
