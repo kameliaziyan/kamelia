@@ -18,7 +18,7 @@ def test_analyze_log_content_counts_correctly() -> None:
     }
 
 
-def test_analyze_log_content_with_no_valid_entries() -> None:
+def test_no_valid_entries() -> None:
     log_content = "Random line one\n" "Another random line\n" "No log level here"
 
     result = analyze_log_content(log_content)

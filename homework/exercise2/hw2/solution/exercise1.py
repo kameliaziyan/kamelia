@@ -5,15 +5,15 @@ def analyze_log_content(log_content: str) -> dict:
     count_info = 0
     dict_count = {}
 
-    for i in range(len(log_content)):
-        if log_content.find("ERROR", i) == i:
+    for index  , character in enumerate(log_content):
+        if log_content.find("ERROR", index) == index:
             count_error += 1
 
-        if log_content.find("WARNING", i) == i:
+        if log_content.find("WARNING", index) == index:
 
             count_warning += 1
 
-        if log_content.find("INFO", i) == i:
+        if log_content.find("INFO", index) == index:
             count_info += 1
 
     dict_count["Error"] = count_error

@@ -1,7 +1,10 @@
-def quadratic_equation(a: float, b: float, c: float) -> str:
+def quadratic_equation(coefficient_a: float, coefficient_b: float, coefficient_c: float) -> str:
 
-    x1 = (-b + ((b**2 - 4 * a * c) ** 0.5)) / (2 * a)
-    x2 = (-b - ((b**2 - 4 * a * c) ** 0.5)) / (2 * a)
-    # print(f" x1 = {x1:.2f}, x2 = {x2 :.2f}")
+    discriminant = coefficient_b ** 2 - 4 * coefficient_a * coefficient_c
+    sqrt_discriminant = discriminant ** 0.5
+    denominator = 2 * coefficient_a
+
+    x1 = (-coefficient_b + sqrt_discriminant) / denominator
+    x2 = (-coefficient_b - sqrt_discriminant) / denominator
 
     return f"x1 = {x1:.2f}, x2 = {x2:.2f}"

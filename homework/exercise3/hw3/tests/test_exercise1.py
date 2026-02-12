@@ -1,17 +1,35 @@
 import pytest
-from solution.exercise1 import  format_data
+from solution.exercise1 import type_check
 
 
-def test_correct_types_input():
-    result = format_data("kamelia", 28, {"key": "value"})
-    assert result == "Name: kamelia, Age: 28, Data: value"
+@type_check
+def add(first_number: int, second_number: int) -> int:
+    return first_number + second_number
 
 
-def test_correct_types_input_otherinfo():
-    result = format_data("kamelia", 28, {"key": "value"}, 1234)
-    assert result == "Name: kamelia, Age: 28, Data: value, Other Info : 1234"
+@type_check
+def greet(name: str) -> str:
+    return f"Hello {name}"
 
 
-def test_incorrect():
-    with pytest.raises (TypeError):
-        format_data(10, 30, {"key": "value"})
+@type_check
+def broken_function(value: int) -> int:
+    return "wrong"
+
+
+def test_add_valid():
+    assert add(2, 3) == 5
+
+
+def test_greet_valid():
+    assert greet("Dan") == "Hello Dan"
+
+
+def test_add_wrong_type():
+    with pytest.raises(TypeError):
+        add(2, "3")
+
+
+def test_wrong_return_type():
+    with pytest.raises(TypeError):
+        broken_function(5)

@@ -1,6 +1,6 @@
 import io
 from unittest.mock import patch
-from solution.exercise2 import Calculator, divide, multiply, subtract
+from solution.exercise2 import calculator, divide, multiply, subtract
 from solution.exercise2 import add
 
 
@@ -46,7 +46,7 @@ def test_calculator()-> None:
     ]
     with patch("builtins.input", side_effect=user_inputs):
         with patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
-            result = Calculator()
+            result = calculator()
             output = mock_stdout.getvalue()
 
             for expected in expected_outputs:
