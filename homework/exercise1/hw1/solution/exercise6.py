@@ -21,6 +21,7 @@ def variable_types() -> None:
         7.999,
         33.3,
         9999.9,
+        54.3,
         "HELLO",
         "bye",
         "kamelia",

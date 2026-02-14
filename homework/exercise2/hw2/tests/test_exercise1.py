@@ -18,6 +18,26 @@ def test_analyze_log_content_counts_correctly() -> None:
     }
 
 
+def test_analyze_log_content_counts_correctly2() -> None:
+    log_content = (
+        "2024-04-29 15:45:00,089 INFO message one\n"
+        "2024-04-29 15:45:05,123 WARNING message two\n"
+        "2024-04-29 15:45:10,456 ERROR message three\n"
+        "2024-04-29 15:46:00,789 INFO message four\n"
+        "2024-04-29 15:45:00,089 INFO message one\n"
+        "2024-04-29 15:45:05,123 WARNING message two\n"
+        "2024-04-29 15:45:10,456 ERROR message three"
+    )
+
+    result = analyze_log_content(log_content)
+
+    assert result == {
+        "Error": 2,
+        "Warning": 2,
+        "Info": 3,
+    }
+
+
 def test_no_valid_entries() -> None:
     log_content = "Random line one\n" "Another random line\n" "No log level here"
 

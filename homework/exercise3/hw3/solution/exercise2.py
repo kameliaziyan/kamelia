@@ -1,12 +1,14 @@
 from functools import lru_cache
 
 
-@lru_cache(maxsize=100)
+@lru_cache(maxsize=None)
 def fibonacci(number: int) -> int:
+    if number < 1:
+        raise ValueError("number must be greater than or equal to 1")
 
-    if number == 0:
-        return 0
     if number == 1:
+        return 0
+    if number == 2:
         return 1
 
     else:

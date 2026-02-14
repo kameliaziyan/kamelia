@@ -307,6 +307,5 @@ source venv/bin/activate
 pip freeze
 pip install -r requirements.txt
 ./lint.sh
-/lint.sh
 chmod +x lint.sh
 ./lint.sh

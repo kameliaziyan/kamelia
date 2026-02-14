@@ -1,4 +1,5 @@
 # Provide the missing imports
+import pytest
 from solution.exercise1 import extract_pid
 
 
@@ -9,6 +10,12 @@ def test_extract_pid_large_number() -> None:
 
     assert result == 123456
     assert isinstance(result, int)
+
+
+def test_extract_pid_missing_pid() -> None:
+    line = "2024-04-29 INFO some random log"
+    with pytest.raises(ValueError):
+        extract_pid(line)
 
 
 def test_extract_pid_different_position() -> None:

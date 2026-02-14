@@ -1,23 +1,33 @@
-def analyze_log_content(log_content: str) -> dict:
+def detect_level(line: str) -> str:
+    if line.find("ERROR") >= 0:
+        return "ERROR"
+    if line.find("WARNING") >= 0:
+        return "WARNING"
+    if line.find("INFO") >= 0:
+        return "INFO"
+    return ""
 
+
+def analyze_log_content(log_content: str) -> dict:
     count_error = 0
     count_warning = 0
     count_info = 0
-    dict_count = {}
 
-    for index, character in enumerate(log_content):
-        if log_content.find("ERROR", index) == index:
-            count_error += 1
+    for line in log_content.splitlines():
+        level = detect_level(line)
 
-        if log_content.find("WARNING", index) == index:
+        match level:
+            case "ERROR":
+                count_error += 1
+            case "WARNING":
+                count_warning += 1
+            case "INFO":
+                count_info += 1
+            case _:
+                pass
 
-            count_warning += 1
-
-        if log_content.find("INFO", index) == index:
-            count_info += 1
-
-    dict_count["Error"] = count_error
-    dict_count["Warning"] = count_warning
-    dict_count["Info"] = count_info
-
-    return dict_count
+    return {
+        "Error": count_error,
+        "Warning": count_warning,
+        "Info": count_info,
+    }

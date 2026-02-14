@@ -55,21 +55,18 @@ def handle_basic_commands(command: str) -> str | None:
 
 def handle_stash_commands(command: str) -> str | None:
     match command:
-        case cmd if cmd == GIT_STASH:
-            return DESCRIPTION_STASH
+        case cmd if cmd.startswith(f"{GIT_STASH_APPLY_NAME} "):
+            stash_name = cmd.replace(GIT_STASH_APPLY_NAME, "").strip()
+            return DESCRIPTION_STASH_APPLY_NAME.replace("<stash-name>", stash_name)
+        case cmd if cmd == GIT_STASH_APPLY:
+            return DESCRIPTION_STASH_APPLY
 
         case cmd if cmd.startswith(f"{GIT_STASH_PUSH} "):
             message = cmd.replace(GIT_STASH_PUSH, "").strip()
             return DESCRIPTION_STASH_PUSH.replace("<stash message>", message)
 
-        case cmd if cmd == GIT_STASH_APPLY:
-            return DESCRIPTION_STASH_APPLY
-
-        case cmd if cmd.startswith(f"{GIT_STASH_APPLY_NAME} "):
-            stash_name = cmd.replace(GIT_STASH_APPLY_NAME, "").strip()
-            return DESCRIPTION_STASH_APPLY_NAME.replace(
-                "<stash-name>", stash_name
-            )
+        case cmd if cmd == GIT_STASH:
+            return DESCRIPTION_STASH
 
     return None
 

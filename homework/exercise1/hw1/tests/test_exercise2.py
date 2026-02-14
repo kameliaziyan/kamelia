@@ -20,11 +20,11 @@ def test_extract_title_with_spaces_and_newline() -> None:
 
 
 def test_extract_title_multiple_titles() -> None:
-    html = "<title>First Title</title><title>Second Title</title>"
+    html = "<title>page 1</title><title>page 2</title>"
 
     result = extract_title(html)
 
-    assert result == "First Title"
+    assert result == "page 1"
 
 
 def test_extract_title_special_characters() -> None:

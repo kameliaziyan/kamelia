@@ -1,27 +1,29 @@
 from solution.exercise2 import fibonacci
+import pytest
 
 
 def test_febonacci1() -> None:
-    result = fibonacci(5)
-    assert result == 5
+    assert fibonacci(5) == 3
 
 
 def test_febonacci2() -> None:
-    result = fibonacci(57)
-    assert result == 365435296162
+    assert fibonacci(57) == 225851433717
 
 
 def test_febonacci3() -> None:
-    result = fibonacci(200)
-    assert result == 280571172992510140037611932413038677189525
+    assert fibonacci(200) == 173402521172797813159685037284371942044301
 
 
 def test_febonacci4() -> None:
-    result = fibonacci(260)
-    assert result == 971183874599339129547649988289594072811608739584170445
+    assert fibonacci(260) == (600224643828207248620196670234592075321836561403380341)
 
 
 def test_febonacci5() -> None:
-    result = fibonacci(500)
-    expected = 139423224561697880139724382870407283950070256587697307264108962948325571622863290691557658876222521294125
-    assert result == expected
+    assert fibonacci(500) == (
+        86168291600238450732788312165664788095941068326060883324529903470149056115823592713458328176574447204501
+    )
+
+
+def test_fibonacci_invalid() -> None:
+    with pytest.raises(ValueError):
+        fibonacci(0)

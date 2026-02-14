@@ -1,5 +1,9 @@
 from functools import wraps
 
+# In this question
+# # There are two possible outcomes here (either it raises an error or returns normally),
+# so I was not sure what return type to specify or how to annotate it properly.
+
 
 def validate_args(args, expected_arg_type_names, parameter_names, all_types):
     for index, expected_type in enumerate(expected_arg_type_names):
