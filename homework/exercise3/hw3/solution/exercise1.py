@@ -1,19 +1,19 @@
 from functools import wraps
 
+
 def validate_args(args, expected_arg_type_names, parameter_names, all_types):
     for index, expected_type in enumerate(expected_arg_type_names):
         if expected_type in all_types:
             actual_type = type(args[index]).__name__
 
-
             if actual_type == expected_type:
                 continue
 
             raise TypeError(
-        f"Argument '{parameter_names[index]}' "
-        f"must be of type {expected_type}, "
-        f"got {actual_type} instead."
-)
+                f"Argument '{parameter_names[index]}' "
+                f"must be of type {expected_type}, "
+                f"got {actual_type} instead."
+            )
 
 
 def validate_kwargs(kwargs, annotations, parameter_names, all_types):
@@ -31,12 +31,11 @@ def validate_kwargs(kwargs, annotations, parameter_names, all_types):
             continue
 
         raise TypeError(
-    f"Argument '{kwarg_name}' must be of type {expected}, "
-    f"got {actual} instead."
-)
+            f"Argument '{kwarg_name}' must be of type {expected}, "
+            f"got {actual} instead."
+        )
 
 
-                    
 def validate_return(result, annotations, all_types):
     expected_type = annotations.get("return")
     if expected_type is None:
@@ -50,10 +49,8 @@ def validate_return(result, annotations, all_types):
             return
 
         raise TypeError(
-            f"Return value must be of type {expected}, "
-            f"got {actual} instead."
+            f"Return value must be of type {expected}, " f"got {actual} instead."
         )
-
 
 
 def type_check(func):
@@ -83,7 +80,7 @@ def type_check(func):
 
         result = func(*args, **kwargs)
 
-        validate_return(result, annotations,  all_types)
+        validate_return(result, annotations, all_types)
 
         return result
 

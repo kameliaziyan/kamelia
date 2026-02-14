@@ -1,26 +1,26 @@
 INVALID_OPERATION = "invalid operation"
 
+
 def print_invalid() -> None:
     print(INVALID_OPERATION)
 
 
-def handle_command(words : list[str]) -> None :
-        command = words[0]
-        if command == "add":
-            print(add(words))
+def handle_command(words: list[str]) -> str:
+    command = words[0]
+    if command == "add":
+        return add(words)
 
-        elif command == "subtract":
-            print(subtract(words))
+    elif command == "subtract":
+        return subtract(words)
 
-        elif command == "divide":
-            print(divide(words))
+    elif command == "divide":
+        return divide(words)
 
-        elif command == "multiply":
-            print(multiply(words))
-            
+    elif command == "multiply":
+        return multiply(words)
 
-        else:
-            print_invalid()
+    return INVALID_OPERATION
+
 
 def validate_input(words: list[str]) -> bool:
     is_valid = True
@@ -100,19 +100,19 @@ def divide(line: list[str]) -> str:
         first_number = int(line[1])
         second_number = int(line[3])
         if second_number == 0:
-            print_invalid()
             return INVALID_OPERATION
 
         result = first_number / second_number
         return f"The answer is {result}"
-    else:
-        return INVALID_OPERATION
+
+    return INVALID_OPERATION
 
 
-def calculator() -> str:
+def calculator() -> None:
 
     while True:
         data = input("enters a valid operation ")
+
         if not data:
             print_invalid()
             continue
@@ -121,11 +121,7 @@ def calculator() -> str:
             break
 
         words = data.split()
-        #command = words[0]
 
-        if  validate_input(words):
-            handle_command(words)
-
-    return "Good Bye <3"
-
-
+        if validate_input(words):
+            result = handle_command(words)
+            print(result)

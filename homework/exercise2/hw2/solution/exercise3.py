@@ -30,68 +30,57 @@ DESCRIPTION_STASH_APPLY_NAME = (
     "Applies the stashed changes with the specified name <stash-name>."
 )
 
+INVALID_COMMAND = "Invalid Command"
+
+
+def handle_basic_commands(command: str) -> str | None:
+    match command:
+        case cmd if cmd.startswith(f"{GIT_ADD} "):
+            filename = cmd.replace(GIT_ADD, "").strip()
+            return DESCRIPTION_ADD.replace("filename", filename)
+
+        case cmd if cmd.startswith(f"{GIT_CACHED} "):
+            filename = cmd.replace(GIT_CACHED, "").strip()
+            return DESCRIPTION_CACHED.replace("<filename>", filename)
+
+        case cmd if cmd.startswith(f"{GIT_COMMIT} "):
+            message = cmd.replace(GIT_COMMIT, "").strip()
+            return DESCRIPTION_COMMIT.replace("<commit message>", message)
+
+        case cmd if cmd == GIT_PUSH:
+            return DESCRIPTION_PUSH
+
+    return None
+
+
+def handle_stash_commands(command: str) -> str | None:
+    match command:
+        case cmd if cmd == GIT_STASH:
+            return DESCRIPTION_STASH
+
+        case cmd if cmd.startswith(f"{GIT_STASH_PUSH} "):
+            message = cmd.replace(GIT_STASH_PUSH, "").strip()
+            return DESCRIPTION_STASH_PUSH.replace("<stash message>", message)
+
+        case cmd if cmd == GIT_STASH_APPLY:
+            return DESCRIPTION_STASH_APPLY
+
+        case cmd if cmd.startswith(f"{GIT_STASH_APPLY_NAME} "):
+            stash_name = cmd.replace(GIT_STASH_APPLY_NAME, "").strip()
+            return DESCRIPTION_STASH_APPLY_NAME.replace(
+                "<stash-name>", stash_name
+            )
+
+    return None
+
 
 def git_command_simulator(command: str) -> str:
+    result = handle_basic_commands(command)
+    if result is not None:
+        return result
 
-    len_command = len(command.split())
-    # print(len_command)
-    if command.startswith(GIT_ADD):
-        git_message = command.split("git add")[1]
-        result = f'"Stage all changes or specific file {git_message} for the next commit.'
+    result = handle_stash_commands(command)
+    if result is not None:
+        return result
 
-    if command.startswith(GIT_CACHED):
-        git_message = command.split("git rm --cached")[1]
-        result = f"Unstage file {git_message} while retaining the changes in the working directory."
-
-    if command.startswith(GIT_COMMIT):
-        git_message = command.split("git commit -m")[1]
-        result = f"Commit changes to the repository with a descriptive message {git_message}."
-
-    if command.startswith(GIT_PUSH):
-       result = "Upload your commits to the remote repository."
-
-    if command.startswith(GIT_STASH) and len_command == 2:
-        result = "Temporarily shelves changes in your working directory so you can work on a different task."
-
-    if command.startswith(GIT_STASH_PUSH) and len_command >= 5:
-        git_message = command.split("git stash push -m")[1]
-        result = f"Stashes changes with a custom message {git_message} for easy identification."
-
-    if command.startswith(GIT_STASH_APPLY) and len_command == 3:
-        result = "Applies the most recently stashed changes."
-
-    if command.startswith(GIT_STASH_APPLY_NAME) and len_command == 4:
-        git_message = command.split("git stash apply")[1]
-        result = f"Applies the stashed changes with the specified name {git_message}."
-
-
-    print(result)
-    return "Error: Unsupported or invalid git command."
-
-
-
-
-
-# git_add = "git add <filename>"
-# description_add = "Stage all changes or specific file filename for the next commit."
-
-# git_cached = "git rm --cached <filename>"
-# description_cached = "Unstage file <filename> while retaining the changes in the working directory."
-
-# git_commit = "git commit -m <commit message>"
-# description_commit = "Commit changes to the repository with a descriptive message <commit message>."
-
-# git_push = "git push"
-# description_push = "Upload your commits to the remote repository."
-
-# git_stash = "git stash"
-# description_stash = "Temporarily shelves changes in your working directory so you can work on a different task."
-
-# git_stash_push = "git stash push -m <stash message>"
-# description_stash_push = "Stashes changes with a custom message <stash message> for easy identification."
-
-# git_stash_apply = "git stash apply"
-# description_stash_apply = "Applies the most recently stashed changes."
-
-# git_stash_apply_name = "git stash apply <stash-name>"
-# description_stash_apply_name = "Applies the stashed changes with the specified name <stash-name>."
+    return INVALID_COMMAND

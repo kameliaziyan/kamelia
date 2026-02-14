@@ -4,7 +4,7 @@ from solution.exercise3 import git_command_simulator
 def test_git_add() -> None:
     command = "git add readme.md"
     result = git_command_simulator(command)
-    right_answer = '"Stage all changes or specific file  readme.md for the next commit.'
+    right_answer = "Stage all changes or specific file readme.md for the next commit."
     assert result == right_answer
 
 
@@ -12,7 +12,7 @@ def test_git_rm_cached() -> None:
     command = "git rm --cached readme.md"
     result = git_command_simulator(command)
     right_answer = (
-        "Unstage file  readme.md while retaining the changes in the working directory."
+        "Unstage file readme.md while retaining the changes in the working directory."
     )
     assert result == right_answer
 
@@ -21,7 +21,7 @@ def test_git_commit() -> None:
     command = 'git commit -m "initial commit"'
     result = git_command_simulator(command)
     right_answer = (
-        'Commit changes to the repository with a descriptive message  "initial commit".'
+        'Commit changes to the repository with a descriptive message "initial commit".'
     )
     assert result == right_answer
 
@@ -43,7 +43,7 @@ def test_git_stash() -> None:
 def test_git_stash_push() -> None:
     command = 'git stash push -m "finished exercise"'
     result = git_command_simulator(command)
-    right_answer = 'Stashes changes with a custom message  "finished exercise" for easy identification.'
+    right_answer = 'Stashes changes with a custom message "finished exercise" for easy identification.'
     assert result == right_answer
 
 
@@ -56,4 +56,4 @@ def test_git_stash_apply() -> None:
 def test_invalid_command() -> None:
     command = "unknown command"
     result = git_command_simulator(command)
-    assert result == "Error: Unsupported or invalid git command."
+    assert result == "Invalid Command"

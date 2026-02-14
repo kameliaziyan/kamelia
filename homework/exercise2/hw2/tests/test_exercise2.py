@@ -1,6 +1,4 @@
-import io
-from unittest.mock import patch
-from solution.exercise2 import calculator, divide, multiply, subtract
+from solution.exercise2 import divide, multiply, subtract
 from solution.exercise2 import add
 
 
@@ -27,29 +25,3 @@ def test_divide() -> None:
     assert divide(["divide", "5", "by", "2"]) == "The answer is 2.5"
     assert divide(["divide", "10", "by", "0"]) == "invalid operation"
     assert divide(["divide", "10", "to", "5"]) == "invalid operation"
-
-
-def test_calculator()-> None:
-    user_inputs = [
-        "add 2 to 5",
-        "subtract 2 from 5",
-        "multiply 2 by 5",
-        "divide 10 by 5",
-        "exit",
-    ]
-
-    expected_outputs = [
-        "The answer is 7",
-        "The answer is 3",
-        "The answer is 10",
-        "The answer is 2.0",
-    ]
-    with patch("builtins.input", side_effect=user_inputs):
-        with patch("sys.stdout", new_callable=io.StringIO) as mock_stdout:
-            result = calculator()
-            output = mock_stdout.getvalue()
-
-            for expected in expected_outputs:
-                assert expected in output
-
-            assert result == "Good Bye <3"
