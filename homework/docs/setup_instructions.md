@@ -309,3 +309,7 @@ pip install -r requirements.txt
 ./lint.sh
 chmod +x lint.sh
 ./lint.sh
+
+
+main command => python3 -m solution.main
+

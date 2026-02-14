@@ -1,5 +1,13 @@
  # Entry point for the application
-from solution import cli
+
+
+#from solution.budget import Budget
+from solution.cli import CLI 
+
+def main() -> None :
+    #budget = Budget()
+    app = CLI()
+    app.actions()
 
 if __name__ == "__main__":
-    cli()
+    main()

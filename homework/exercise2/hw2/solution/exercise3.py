@@ -32,6 +32,10 @@ DESCRIPTION_STASH_APPLY_NAME = (
 
 INVALID_COMMAND = "Invalid Command"
 
+# I tried to create a solution that truly uses match and case with structural pattern matching
+# and avoids using if statements, but I wasn’t able to achieve it completely.
+# This is the best approach I managed to implement.
+
 
 def handle_basic_commands(command: str) -> str | None:
     match command:
@@ -50,7 +54,8 @@ def handle_basic_commands(command: str) -> str | None:
         case cmd if cmd == GIT_PUSH:
             return DESCRIPTION_PUSH
 
-    return None
+        case _:
+            return None
 
 
 def handle_stash_commands(command: str) -> str | None:
@@ -68,7 +73,8 @@ def handle_stash_commands(command: str) -> str | None:
         case cmd if cmd == GIT_STASH:
             return DESCRIPTION_STASH
 
-    return None
+        case _:
+            return None
 
 
 def git_command_simulator(command: str) -> str:

@@ -70,7 +70,7 @@
 
 ## Exercise 3: Extracting Key-Value Pairs from Logs
 
- - Write a function that accepts a log line and a key as input and returns the value associated with the key. (No type conversion needed.
+ - Write a function that accepts a log line and a key as input and returns the value associated with the key. No type conversion needed.
  - Provide at least 2 unit tests with other cases
 
 **Example**:
