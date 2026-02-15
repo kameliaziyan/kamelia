@@ -5,7 +5,7 @@ INITIAL_FUEL = 10
 
 
 class Spaceship:
-    def __init__(self, name: str, type: str, fuel_type: str, fuel = INITIAL_FUEL):
+    def __init__(self, name: str, type: str, fuel_type: str, fuel = INITIAL_FUEL) -> None:
         self.name = name
         self.type = type
         self.fuel_type = fuel_type
