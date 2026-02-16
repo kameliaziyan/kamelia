@@ -15,17 +15,14 @@ def get_high_earners(company: dict, threshold: int) -> dict[str, list[str]]:
             for departmentt in company[LOCAL_DEPARTMENTS]
             if departmentt[LOCAL_NAMES] == department
             for teams in departmentt[LOCAL_TEAMS]
-
         ]
         names = [
             employee[LOCAL_NAMES]
             for employees in split
             for employee in employees
             if employee[LOCAL_SALARY] > threshold
-                    ]
+        ]
 
-
-       
         values.append(names)
 
     high_earners = {key: value for key, value in zip(keys, values)}
