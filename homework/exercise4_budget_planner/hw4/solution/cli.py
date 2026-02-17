@@ -5,7 +5,6 @@ class CLI:
     def __init__(self) -> None:
         self.budget = Budget()
 
-
     def actions(self) -> None:
         while True:
             data = input(
@@ -23,7 +22,6 @@ class CLI:
             if not self._process_action(data):
                 break
 
-
     def _process_action(self, data: str) -> bool:
         if data == "7":
             return False
@@ -34,7 +32,7 @@ class CLI:
             case "2":
                 self._handle_add_expense()
             case "3":
-                print("hii")
+                print( self._handle_view_summary())
             case "4":
                 self._handle_remove_income()
             case "5":
@@ -46,11 +44,44 @@ class CLI:
                 print("Invalid option. Please try again.")
 
         return True
+    
+    def _handle_view_summary(self) -> None:
+        incomes = self.budget.get_incomes()
+        expenses = self.budget.get_expenses()
+
+        print("\n" + "=" * 40)
+        print("        BUDGET SUMMARY")
+        print("=" * 40)
+
+        # Income section
+        print("\nINCOME SOURCES:")
+        if incomes:
+            for index, income in enumerate(incomes, start=1):
+                print(f"  {index}. {income.description:<20} ${income.amount:,.2f}")
+        else:
+            print("  No income sources added.")
+
+        print("-" * 40)
+        print(f"TOTAL INCOME:           ${self.budget.total_income():,.2f}")
+
+        # Expense section
+        print("\nEXPENSES:")
+        if expenses:
+            for index, expense in enumerate(expenses, start=1):
+                print(f"  {index}. {expense.description:<20} ${expense.amount:,.2f}")
+        else:
+            print("  No expenses added.")
+
+        print("-" * 40)
+        print(f"TOTAL EXPENSES:         ${self.budget.total_expense():,.2f}")
+
+        print("\n" + "=" * 40)
+        print(f"REMAINING BUDGET:       ${self.budget.remaining_budget():,.2f}")
+        print("=" * 40 + "\n")
 
 
     def _float_amount(self, message: str) -> float:
         return float(input(message))
-
 
     def _handle_add_income(self) -> None:
         description = input("Enter income description: ")
@@ -69,7 +100,6 @@ class CLI:
             print("Income added successfully!")
             break
 
-
     def _handle_add_expense(self) -> None:
         description = input("Enter expense description: ")
 
@@ -84,7 +114,6 @@ class CLI:
             print("Expense added successfully!")
             break
 
-
     def _handle_remove_income(self) -> None:
         while True:
             description = input("Enter income description to remove: ")
@@ -97,7 +126,6 @@ class CLI:
 
             print("Income removed successfully!")
             break
-
 
     def _handle_remove_expense(self) -> None:
 
