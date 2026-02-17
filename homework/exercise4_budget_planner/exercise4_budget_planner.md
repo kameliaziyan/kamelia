@@ -138,7 +138,7 @@ You have flexibility in how you build the command-line interface:
 
 Choose an option: 1
 Enter income description: Salary
-Enter income amount: 5000
+Enter income description: 5000
 Income added successfully!
 ```
 

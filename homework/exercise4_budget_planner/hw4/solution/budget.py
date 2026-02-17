@@ -1,71 +1,73 @@
-# Business logic (classes for Budget, Income, Expense)
+from dataclasses import dataclass
 
 
-
-class Income():
-    description : str
-    amount : float
-    def __init__(self, description,amount ):
-        self.description = description
-        self.amount = amount
+@dataclass
+class Income:
+    description: str
+    amount: float
 
 
+@dataclass
+class Expense:
+    description: str
+    amount: float
 
 
-class Expense():
-     description : str
-     amount : float
-     def __init__(self, description, amount):
-        self.description = description
-        self.amount = amount
-        
+class Budget:
 
+    def __init__(self) -> None:
+        self._incomes: list[Income] = []
+        self._expenses: list[Expense] = []
 
-class Budget():
-    
-    def __init__(self):
-        self._incomes = []
-        self._expenses = []
 
     def add_income(self, description: str, amount: float) -> None:
-        income = Income(description,amount)
+        if amount < 0:
+            raise ValueError("Income amount cannot be negative")
+
+        income = Income(description, amount)
         self._incomes.append(income)
 
+
     def add_expense(self, description: str, amount: float) -> None:
-        expenses = Expense(description,amount)
+        if amount < 0:
+            raise ValueError("Expense amount cannot be negative")
+
+        expenses = Expense(description, amount)
         self._expenses.append(expenses)
 
+
     def total_income(self) -> float:
-        total = 0
-        for income in self._incomes :
-            total += income.amount
-        return total
+        return sum(income.amount for income in self._incomes)
+
 
     def total_expense(self) -> float:
-        total = 0
-        for expense in self._expenses:
-            total += expense.amount
-        return total
-        
+        return sum(expense.amount for expense in self._expenses)
+
 
     def remaining_budget(self) -> float:
         remaining = self.total_income() - self.total_expense()
         return remaining
-    
-    def remove_income(self) :
-        pass
-
-    def remove_expense(self):
-        pass
-
-    def clear_all(self):
-        pass
 
 
-        
-        
+    def remove_income(self, description: str) -> None:
+        for income in self._incomes:
+            if income.description == description:
+                self._incomes.remove(income)
+
+                return
+
+        raise ValueError("Income description not found")
 
 
+    def remove_expense(self, description: str) -> None:
+        for expense in self._expenses:
+            if expense.description == description:
+                self._expenses.remove(expense)
+                return
+
+        raise ValueError("Expense description not found")
 
 
-    
+    def clear_all(self) -> None:
+        self._incomes.clear()
+        self._expenses.clear()

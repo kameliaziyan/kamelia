@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from uuid import uuid4
+from typing import Optional
 from fastapi import FastAPI
 
 
@@ -106,15 +106,25 @@ class ProductsService ():
         pass
     def get_all_products(self) -> list[Product]:
         return products
-    def get_product_by_id(self, product_id: int) -> Optional[Product]:
-        id = input("enter an id")
-        return [ product for product in products if products["id"] == id ]
+    
+    def get_product_by_id(self, product_id: int):
+        for product in products:
+            if product["id"] == product_id:
+              return product
+        return None
+
         
-    def create_product(self, name: str, description: str, price: float, stock: int) -> Product:
-        new_product = Product(id = len(products) + 1, name =name, description=description, price=price, stock=stock)
+    def create_product(self, name: str, description: str, price: float, stock: int):
+        new_product = {
+        "id": len(products) + 1,
+        "name": name,
+        "description": description,
+        "price": price,
+        "stock": stock
+          }
         products.append(new_product)
         return new_product
-    
+
     # help function
     def get_product_by_name(self, product_name: int) -> Optional[Product]:
         name = input("enter an name")
