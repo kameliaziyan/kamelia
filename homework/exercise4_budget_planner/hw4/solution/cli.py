@@ -4,10 +4,14 @@ LINE_WIDTH = 40
 
 
 class CLI:
+    """interface for the Budget Planner application."""
+
     def __init__(self) -> None:
+        """Initialize the CLI and create a Budget instance."""
         self.budget = Budget()
 
     def actions(self) -> None:
+        """Display the interactive menu and process user actions."""
         while True:
             data = input(
                 "===== BUDGET PLANNER =====\n"
@@ -25,6 +29,7 @@ class CLI:
                 break
 
     def _process_action(self, data: str) -> bool:
+        """Process the user's menu selection."""
         if data == "7":
             return False
 
@@ -48,6 +53,7 @@ class CLI:
         return True
 
     def _handle_view_summary(self) -> None:
+        """Display a formatted summary of incomes, expenses, and remaining budget."""
         line = "=" * LINE_WIDTH
         separator = "-" * LINE_WIDTH
 
@@ -86,11 +92,11 @@ class CLI:
         total_value: float,
         separator: str,
     ) -> None:
+        """Print a formatted section of income or expense entries."""
         print(f"\n{title}")
 
         if len(items) == 0:
             print("  No items added.")
-
         else:
             for index, item in enumerate(items, start=1):
                 description = f"{item.description:<20}"
@@ -102,9 +108,11 @@ class CLI:
         print(f"{total_label:<23} {formatted_total}")
 
     def _float_amount(self, message: str) -> float:
+        """Convert user input to a float value."""
         return float(input(message))
 
     def _handle_add_income(self) -> None:
+        """Handle adding a new income entry from user input."""
         while True:
             description = input("Enter income description: ").strip()
 
@@ -124,6 +132,7 @@ class CLI:
             break
 
     def _handle_add_expense(self) -> None:
+        """Handle adding a new expense entry from user input."""
         while True:
             description = input("Enter expense description: ").strip()
 
@@ -143,11 +152,11 @@ class CLI:
             break
 
     def _handle_remove_income(self) -> None:
+        """Handle removing an income entry by description."""
         while True:
             description = input("Enter income description to remove: ")
             try:
                 self.budget.remove(description, "income")
-
             except ValueError:
                 print("Income not found. Please try again.")
                 continue
@@ -156,12 +165,11 @@ class CLI:
             break
 
     def _handle_remove_expense(self) -> None:
-
+        """Handle removing an expense entry by description."""
         while True:
             description = input("Enter expense description to remove: ")
             try:
                 self.budget.remove(description, "expense")
-
             except ValueError:
                 print("Expense not found. Please try again.")
                 continue
