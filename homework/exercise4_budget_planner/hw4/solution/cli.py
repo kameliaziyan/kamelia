@@ -1,5 +1,7 @@
 from solution.budget import Budget
 
+LINE_WIDTH = 40
+
 
 class CLI:
     def __init__(self) -> None:
@@ -32,85 +34,111 @@ class CLI:
             case "2":
                 self._handle_add_expense()
             case "3":
-                print( self._handle_view_summary())
+                self._handle_view_summary()
             case "4":
                 self._handle_remove_income()
             case "5":
                 self._handle_remove_expense()
             case "6":
                 self.budget.clear_all()
-                print("Clear Budget !!")
+                print("Your Budget is clear !!")
             case _:
                 print("Invalid option. Please try again.")
 
         return True
-    
+
     def _handle_view_summary(self) -> None:
-        incomes = self.budget.get_incomes()
-        expenses = self.budget.get_expenses()
+        line = "=" * LINE_WIDTH
+        separator = "-" * LINE_WIDTH
 
-        print("\n" + "=" * 40)
+        print(f"\n{line}")
         print("        BUDGET SUMMARY")
-        print("=" * 40)
+        print(line)
 
-        # Income section
-        print("\nINCOME SOURCES:")
-        if incomes:
-            for index, income in enumerate(incomes, start=1):
-                print(f"  {index}. {income.description:<20} ${income.amount:,.2f}")
+        self._print_section(
+            title="INCOME SOURCES:",
+            items=self.budget.incomes,
+            total_label="TOTAL INCOME:",
+            total_value=self.budget.total_income(),
+            separator=separator,
+        )
+
+        self._print_section(
+            title="EXPENSES:",
+            items=self.budget.expenses,
+            total_label="TOTAL EXPENSES:",
+            total_value=self.budget.total_expense(),
+            separator=separator,
+        )
+
+        remaining = self.budget.remaining_budget
+        formatted_remaining = f"${remaining:,.2f}"
+
+        print(f"\n{line}")
+        print(f"REMAINING BUDGET:       {formatted_remaining}")
+        print(f"{line}\n")
+
+    def _print_section(
+        self,
+        title: str,
+        items: list,
+        total_label: str,
+        total_value: float,
+        separator: str,
+    ) -> None:
+        print(f"\n{title}")
+
+        if len(items) == 0:
+            print("  No items added.")
+
         else:
-            print("  No income sources added.")
+            for index, item in enumerate(items, start=1):
+                description = f"{item.description:<20}"
+                amount = f"${item.amount:,.2f}"
+                print(f"  {index}. {description} {amount}")
 
-        print("-" * 40)
-        print(f"TOTAL INCOME:           ${self.budget.total_income():,.2f}")
-
-        # Expense section
-        print("\nEXPENSES:")
-        if expenses:
-            for index, expense in enumerate(expenses, start=1):
-                print(f"  {index}. {expense.description:<20} ${expense.amount:,.2f}")
-        else:
-            print("  No expenses added.")
-
-        print("-" * 40)
-        print(f"TOTAL EXPENSES:         ${self.budget.total_expense():,.2f}")
-
-        print("\n" + "=" * 40)
-        print(f"REMAINING BUDGET:       ${self.budget.remaining_budget():,.2f}")
-        print("=" * 40 + "\n")
-
+        formatted_total = f"${total_value:,.2f}"
+        print(separator)
+        print(f"{total_label:<23} {formatted_total}")
 
     def _float_amount(self, message: str) -> float:
         return float(input(message))
 
     def _handle_add_income(self) -> None:
-        description = input("Enter income description: ")
-        # if not description:
-        #    print("Operation cancelled.")
-        #    return
-
         while True:
+            description = input("Enter income description: ").strip()
+
             try:
-                amount = self._float_amount("Enter income amount: ")
+                amount = float(input("Enter income amount: "))
             except ValueError:
-                print("Invalid amount. Please enter a valid number.")
+                print("Invalid amount. Please enter a number.")
                 continue
 
-            self.budget.add_income(description, amount)
+            try:
+                self.budget.add_income(description, amount)
+            except ValueError:
+                print("Income amount cannot be negative or 0")
+                continue
+
             print("Income added successfully!")
             break
 
     def _handle_add_expense(self) -> None:
-        description = input("Enter expense description: ")
-
         while True:
+            description = input("Enter expense description: ").strip()
+
             try:
-                amount = self._float_amount("Enter expense amount: ")
+                amount = float(input("Enter expense amount: "))
             except ValueError:
-                print("Invalid amount. Please enter a valid number.")
+                print("Invalid amount. Please enter a number.")
                 continue
 
-            self.budget.add_expense(description, amount)
+            try:
+                self.budget.add_expense(description, amount)
+            except ValueError:
+                print("Expense amount cannot be negative or 0")
+                continue
+
             print("Expense added successfully!")
             break
 
@@ -118,7 +146,7 @@ class CLI:
         while True:
             description = input("Enter income description to remove: ")
             try:
-                self.budget.remove_income(description)
+                self.budget.remove(description, "income")
 
             except ValueError:
                 print("Income not found. Please try again.")
@@ -132,7 +160,7 @@ class CLI:
         while True:
             description = input("Enter expense description to remove: ")
             try:
-                self.budget.remove_expense(description)
+                self.budget.remove(description, "expense")
 
             except ValueError:
                 print("Expense not found. Please try again.")

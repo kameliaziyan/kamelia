@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 
+
 @dataclass
 class Income:
     description: str
@@ -26,7 +27,8 @@ class Budget:
         income = Income(description, amount)
         self._incomes.append(income)
 
-    def get_incomes(self) -> list[Income]:
+    @property
+    def incomes(self) -> list[Income]:
         return self._incomes.copy()
 
     def add_expense(self, description: str, amount: float) -> None:
@@ -36,7 +38,8 @@ class Budget:
         expenses = Expense(description, amount)
         self._expenses.append(expenses)
 
-    def get_expenses(self) -> list[Expense]:
+    @property
+    def expenses(self) -> list[Expense]:
         return self._expenses.copy()
 
     def total_income(self) -> float:
@@ -45,26 +48,27 @@ class Budget:
     def total_expense(self) -> float:
         return sum(expense.amount for expense in self._expenses)
 
+    @property
     def remaining_budget(self) -> float:
-        remaining = self.total_income() - self.total_expense()
-        return remaining
+        return self.total_income() - self.total_expense()
+    
+    def remove(self, description: str, item_type: str) -> None:
+        if item_type == "income":
+            for income in self._incomes:
+                if income.description == description:
+                    self._incomes.remove(income)
+                    return
+            raise ValueError("Income description not found")
 
-    def remove_income(self, description: str) -> None:
-        for income in self._incomes:
-            if income.description == description:
-                self._incomes.remove(income)
+        if item_type == "expense":
+            for expense in self._expenses:
+                if expense.description == description:
+                    self._expenses.remove(expense)
+                    return
+            raise ValueError("Expense description not found")
 
-                return
+        raise ValueError("Invalid item type")
 
-        raise ValueError("Income description not found")
-
-    def remove_expense(self, description: str) -> None:
-        for expense in self._expenses:
-            if expense.description == description:
-                self._expenses.remove(expense)
-                return
-
-        raise ValueError("Expense description not found")
 
     def clear_all(self) -> None:
         self._incomes.clear()

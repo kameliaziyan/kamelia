@@ -1,21 +1,16 @@
-import datetime
-
 
 class BankAccount:
-    def __init__(self , account_number : int , initial_balance : float = 0.0 ):
-        if initial_balance < 0:
-            raise ValueError("Initial balance cannot be negative.")
+    def __init__(self , account_number : str,balance : float = 0.0 ):
 
         self._account_number = account_number
-        self._balance = float(initial_balance)
-        self._transactions: list[str] = []
-
-        if initial_balance > 0:
-            self._transactions.append(
-                f"{datetime.now()} - Initial deposit: {initial_balance:.2f}"
-            )
+        self._balance = balance
+        self._transactions = []
 
 
+
+    def get_transactions (self):
+        return self._transactions.copy()
+    
     @property
     def account_number(self) -> str:
         return self._account_number
@@ -23,36 +18,35 @@ class BankAccount:
     @property
     def balance(self) -> float:
         return self._balance
+     
 
-    def account_deposit(self):
-        pass
-    def account_withdraw(self):
-        pass
+    def deposit(self, amount : float) -> None:
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
 
-
-
-
-
+        self._balance += amount
+        self._transactions.append(f"Deposited {amount}")
 
 
+    def withdraw(self, amount : float) -> None:
+        if amount <= 0 :
+            raise ValueError("withdraw amount must be positive")
+        
+        if amount > self._balance :
+            raise ValueError("You do not have enough funds to complete this transaction.")
+        
+        
 
+        self._balance -= amount
+        self._transactions.append(f"withdraw {amount}")
 
+    def get_statement(self) -> str:
+        statement = f"Account: {self._account_number}\n"
+        statement += f"Balance: {self._balance}\n"
+        statement += "Transactions:\n"
 
-account = BankAccount("ACC123456")  # Create account with initial balance of 0
+        for t in self._transactions:
+            statement += f"- {t}\n"
 
-# Deposit money
-account.deposit(1000.0)
-print(account.balance)  # Should show 1000.0
-
-# Withdraw money
-account.withdraw(300.0)
-print(account.balance)  # Should show 700.0
-
-# Attempt invalid withdrawal (should raise an exception)
-account.withdraw(800.0)  # Should fail - insufficient funds
-
-# Attempt to modify balance directly (should fail)
-account.balance = 5000.0  # Should raise an error - balance is protected
-
-# View account information
-print(account.get_statement())  # Display account details
+        return statement
+  
