@@ -97,13 +97,13 @@ class CLI:
         """Print a formatted section of income or expense entries."""
         print(f"\n{title}")
 
-        if len(items) == 0:
-            print("  No items added.")
-        else:
+        if items:
             for index, item in enumerate(items, start=1):
                 description = f"{item.description:<20}"
                 amount = f"${item.amount:,.2f}"
                 print(f"  {index}. {description} {amount}")
+        else:
+            print("  No items added.")
 
         formatted_total = f"${total_value:,.2f}"
         print(separator)
@@ -115,18 +115,19 @@ class CLI:
 
     def _handle_add_income(self) -> None:
         """Handle adding a new income entry from user input."""
+        description = input("Enter income description: ").strip()
+
         while True:
-            description = input("Enter income description: ").strip()
+            user_input = input("Enter income amount: ").strip()
 
             try:
-                amount = float(input("Enter income amount: "))
+                amount = float(user_input)
             except ValueError:
                 print("Invalid amount. Please enter a number.")
                 continue
 
             try:
                 self.budget.add(description, amount, "income")
-
             except ValueError:
                 print("Income amount cannot be negative or 0")
                 continue
@@ -136,18 +137,19 @@ class CLI:
 
     def _handle_add_expense(self) -> None:
         """Handle adding a new expense entry from user input."""
+        description = input("Enter expense description: ").strip()
+
         while True:
-            description = input("Enter expense description: ").strip()
+            user_input = input("Enter expense amount: ").strip()
 
             try:
-                amount = float(input("Enter expense amount: "))
+                amount = float(user_input)
             except ValueError:
                 print("Invalid amount. Please enter a number.")
                 continue
 
             try:
                 self.budget.add(description, amount, "expense")
-
             except ValueError:
                 print("Expense amount cannot be negative or 0")
                 continue
@@ -156,11 +158,30 @@ class CLI:
             break
 
     def _handle_remove_income(self) -> None:
-        """Handle removing an income entry by description."""
+        """Handle removing an income entry by ID."""
+        if not self.budget.incomes:
+            print("No incomes to remove.")
+            return
+
+        print("\nCurrent Incomes:")
+        for income in self.budget.incomes:
+            print(
+                f"ID: {income.id}    "
+                f"{income.description}      "
+                f"${income.amount:,.2f}",
+            )
+
         while True:
-            description = input("Enter income description to remove: ")
+            user_input = input("Enter income ID to remove: ").strip()
+
             try:
-                self.budget.remove(description, "income")
+                item_id = int(user_input)
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
+                continue
+
+            try:
+                self.budget.remove(item_id, "income")
             except ValueError:
                 print("Income not found. Please try again.")
                 continue
@@ -169,11 +190,30 @@ class CLI:
             break
 
     def _handle_remove_expense(self) -> None:
-        """Handle removing an expense entry by description."""
+        """Handle removing an expense entry by ID."""
+        if not self.budget.expenses:
+            print("No expenses to remove.")
+            return
+
+        print("\nCurrent Expenses:")
+        for expense in self.budget.expenses:
+            print(
+                f"ID: {expense.id} | "
+                f"{expense.description} | "
+                f"${expense.amount:,.2f}",
+            )
+
         while True:
-            description = input("Enter expense description to remove: ")
+            user_input = input("Enter expense ID to remove: ").strip()
+
             try:
-                self.budget.remove(description, "expense")
+                item_id = int(user_input)
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
+                continue
+
+            try:
+                self.budget.remove(item_id, "expense")
             except ValueError:
                 print("Expense not found. Please try again.")
                 continue

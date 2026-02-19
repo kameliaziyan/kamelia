@@ -36,7 +36,8 @@ def test_remove_income() -> None:
     budget = Budget()
     budget.add("Salary", 5000, "income")
 
-    budget.remove("Salary", "income")
+    income_id = budget.incomes[0].id
+    budget.remove(income_id, "income")
 
     assert budget.total("income") == 0
     assert len(budget.incomes) == 0
@@ -46,7 +47,7 @@ def test_invalid_type() -> None:
     budget = Budget()
 
     with pytest.raises(ValueError):
-        budget.remove("Salary", "invalid")
+        budget.remove(1, "invalid")
 
 
 def test_clear_all() -> None:
