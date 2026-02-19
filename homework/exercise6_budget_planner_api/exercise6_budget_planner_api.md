@@ -19,7 +19,7 @@ hw6/
 │   ├── __init__.py
 │   ├── Your solution code files (e.g., budget_planner.py, etc...)
 ├── tests/
-│   ├── __init__.py
+│   ├── __init__.pysou  
 │   └── your test files (e.g., test_budget_planner.py, etc...)
 ├── venv/                      # Your virtual environment (should be in .gitignore)
 ├── setup.cfg                  # Linter configuration file

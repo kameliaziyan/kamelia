@@ -4,41 +4,41 @@ from solution.budget import Budget
 
 def test_add_expense() -> None:
     budget = Budget()
-    budget.add_expense("Rent", 1500)
+    budget.add("Rent", 1500, "expense")
 
     assert len(budget.expenses) == 1
-    assert budget.total_expense() == 1500
+    assert budget.total("expense") == 1500
 
 
 def test_expense_negative() -> None:
     budget = Budget()
 
     with pytest.raises(ValueError):
-        budget.add_expense("Rent", -100)
+        budget.add("Rent", -100, "expense")
 
 
 def test_expense_zero() -> None:
     budget = Budget()
 
     with pytest.raises(ValueError):
-        budget.add_expense("Rent", 0)
+        budget.add("Rent", 0, "expense")
 
 
 def test_total_expense() -> None:
     budget = Budget()
-    budget.add_expense("Rent", 1000)
-    budget.add_expense("Food", 500)
+    budget.add("Rent", 1000, "expense")
+    budget.add("Food", 500, "expense")
 
-    assert budget.total_expense() == 1500
+    assert budget.total("expense") == 1500
 
 
 def test_remove_income() -> None:
     budget = Budget()
-    budget.add_income("Salary", 5000)
+    budget.add("Salary", 5000, "income")
 
     budget.remove("Salary", "income")
 
-    assert budget.total_income() == 0
+    assert budget.total("income") == 0
     assert len(budget.incomes) == 0
 
 
@@ -51,8 +51,8 @@ def test_invalid_type() -> None:
 
 def test_clear_all() -> None:
     budget = Budget()
-    budget.add_income("Salary", 5000)
-    budget.add_expense("Rent", 1500)
+    budget.add("Salary", 5000, "income")
+    budget.add("Rent", 1500, "expense")
 
     budget.clear_all()
 

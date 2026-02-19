@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+INCOME = "income"
+EXPENSE = "expense"
+
 
 @dataclass
 class Income:
@@ -21,59 +24,56 @@ class Budget:
     """Manage income and expense entries."""
 
     def __init__(self) -> None:
-        """Initialize empty lists for incomes and expenses."""
         self._incomes: list[Income] = []
         self._expenses: list[Expense] = []
 
-    def add_income(self, description: str, amount: float) -> None:
-        """Add a new income entry to the budget."""
+    def add(self, description: str, amount: float, item_type: str) -> None:
+        """Add income or expense entry."""
         if amount <= 0:
-            raise ValueError("Income amount cannot be negative or 0")
+            raise ValueError("Amount cannot be negative or 0")
 
-        income = Income(description, amount)
-        self._incomes.append(income)
+        if item_type == INCOME:
+            self._incomes.append(Income(description, amount))
+        elif item_type == EXPENSE:
+            self._expenses.append(Expense(description, amount))
+        else:
+            raise ValueError("Invalid item type")
 
     @property
     def incomes(self) -> list[Income]:
         """Return a copy of all income entries."""
         return self._incomes.copy()
 
-    def add_expense(self, description: str, amount: float) -> None:
-        """Add a new expense entry to the budget."""
-        if amount <= 0:
-            raise ValueError("Expense amount cannot be negative or 0")
-
-        expenses = Expense(description, amount)
-        self._expenses.append(expenses)
-
     @property
     def expenses(self) -> list[Expense]:
         """Return a copy of all expense entries."""
         return self._expenses.copy()
 
-    def total_income(self) -> float:
-        """Return the total amount of all income entries."""
-        return sum(income.amount for income in self._incomes)
+    def total(self, item_type: str) -> float:
+        """Return total income or expense."""
+        if item_type == INCOME:
+            return sum(income.amount for income in self._incomes)
 
-    def total_expense(self) -> float:
-        """Return the total amount of all expense entries."""
-        return sum(expense.amount for expense in self._expenses)
+        if item_type == EXPENSE:
+            return sum(expense.amount for expense in self._expenses)
+
+        raise ValueError("Invalid item type")
 
     @property
     def remaining_budget(self) -> float:
         """Return the remaining budget."""
-        return self.total_income() - self.total_expense()
+        return self.total(INCOME) - self.total(EXPENSE)
 
     def remove(self, description: str, item_type: str) -> None:
         """Remove an income or expense by its description."""
-        if item_type == "income":
+        if item_type == INCOME:
             for income in self._incomes:
                 if income.description == description:
                     self._incomes.remove(income)
                     return
             raise ValueError("Income description not found")
 
-        if item_type == "expense":
+        if item_type == EXPENSE:
             for expense in self._expenses:
                 if expense.description == description:
                     self._expenses.remove(expense)
@@ -84,5 +84,14 @@ class Budget:
 
     def clear_all(self) -> None:
         """Remove all income and expense entries from the budget."""
+
         self._incomes.clear()
         self._expenses.clear()
+
+    def summary(self) -> dict[str, float]:
+        """Return a summary of the budget."""
+        return {
+            "total_income": self.total(INCOME),
+            "total_expense": self.total(EXPENSE),
+            "remaining_budget": self.remaining_budget,
+        }

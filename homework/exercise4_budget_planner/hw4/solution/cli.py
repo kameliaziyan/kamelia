@@ -57,6 +57,8 @@ class CLI:
         line = "=" * LINE_WIDTH
         separator = "-" * LINE_WIDTH
 
+        summary = self.budget.summary()
+
         print(f"\n{line}")
         print("        BUDGET SUMMARY")
         print(line)
@@ -65,7 +67,7 @@ class CLI:
             title="INCOME SOURCES:",
             items=self.budget.incomes,
             total_label="TOTAL INCOME:",
-            total_value=self.budget.total_income(),
+            total_value=summary["total_income"],
             separator=separator,
         )
 
@@ -73,11 +75,11 @@ class CLI:
             title="EXPENSES:",
             items=self.budget.expenses,
             total_label="TOTAL EXPENSES:",
-            total_value=self.budget.total_expense(),
+            total_value=summary["total_expense"],
             separator=separator,
         )
 
-        remaining = self.budget.remaining_budget
+        remaining = summary["remaining_budget"]
         formatted_remaining = f"${remaining:,.2f}"
 
         print(f"\n{line}")
@@ -123,7 +125,8 @@ class CLI:
                 continue
 
             try:
-                self.budget.add_income(description, amount)
+                self.budget.add(description, amount, "income")
+
             except ValueError:
                 print("Income amount cannot be negative or 0")
                 continue
@@ -143,7 +146,8 @@ class CLI:
                 continue
 
             try:
-                self.budget.add_expense(description, amount)
+                self.budget.add(description, amount, "expense")
+
             except ValueError:
                 print("Expense amount cannot be negative or 0")
                 continue
