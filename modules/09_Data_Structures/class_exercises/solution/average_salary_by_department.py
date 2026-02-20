@@ -31,5 +31,3 @@ def get_average_salary_by_department(company: dict) -> dict[str, float]:
     average_salary_department = {key: value for key, value in zip(keys, averages)}
 
     return average_salary_department
-
-

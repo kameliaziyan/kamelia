@@ -15,7 +15,7 @@ class CLI:
         """Display the interactive menu and process user actions."""
 
         while True:
-            data = input(
+            choice = input(
                 "===== BUDGET PLANNER =====\n"
                 "1. Add Income\n"
                 "2. Add Expense\n"
@@ -27,7 +27,7 @@ class CLI:
                 "Choose an option:"
             ).strip()
 
-            if not self._process_action(data):
+            if not self._process_action(choice):
                 break
 
     def _process_action(self, data: str) -> bool:
