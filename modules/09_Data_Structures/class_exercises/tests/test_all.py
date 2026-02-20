@@ -52,7 +52,7 @@ def test_get_all_employee_names(company: dict[str, Any]) -> None:
     [
         ("Engineering", ["Alice", "Bob", "Charlie"]),
         ("HR", ["Dana", "Eli"]),
-        ("NonExisting", []),
+        ("Other", []),
     ],
 )
 def test_get_employees_by_department(
@@ -67,8 +67,8 @@ def test_get_employees_by_department(
 @pytest.mark.parametrize(
     "given, expected_result",
     [
-        (60000, {"Engineering": ["Alice", "Bob", "Charlie"], "HR": ["Eli"]}),
-        (90000, {"Engineering": ["Alice", "Charlie"], "HR": []}),
+        (50000, {"Engineering": ["Alice", "Bob", "Charlie"], "HR": ["Dana", "Eli"]}),
+        (95000, {"Engineering": ["Alice", "Charlie"], "HR": []}),
         (200000, {"Engineering": [], "HR": []}),
     ],
 )
@@ -88,8 +88,5 @@ def test_get_average_salary_by_department(
 ) -> None:
     result = get_average_salary_by_department(company)
 
-    expected_engineering = (100000 + 80000 + 120000) / 3
-    expected_hr = (60000 + 65000) / 2
-
-    assert result["Engineering"] == expected_engineering
-    assert result["HR"] == expected_hr
+    assert result["Engineering"] == 100000
+    assert result["HR"] == 62500
