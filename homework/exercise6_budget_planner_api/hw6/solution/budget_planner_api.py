@@ -19,19 +19,43 @@ async def add_income(description: str, amount: float) -> dict:
 @app.post("/expense")
 async def add_expense(description: str, amount: float) -> dict:
     planner.add(description, amount, EXPENSE)
-    return {"message": "expense added successfully"}
+    return {"message": "Expense added successfully"}
 
 
-@app.delete("/income_/{description}")
-async def delete_income(description: str) -> dict:
-    planner.remove(description, INCOME)
+@app.delete("/income/{item_id}")
+async def delete_income(item_id: int) -> dict:
+    planner.remove(item_id, INCOME)
     return {"message": "Income deleted successfully"}
 
 
-@app.delete("/expense_/{description}")
-async def delete_expense(description: str) -> dict:
-    planner.remove(description, EXPENSE)
-    return {"message": "expense deleted successfully"}
+@app.delete("/expense/{item_id}")
+async def delete_expense(item_id: int) -> dict:
+    planner.remove(item_id, EXPENSE)
+    return {"message": "Expense deleted successfully"}
+
+
+@app.get("/income")
+async def get_income() -> list[dict]:
+    return [
+        {
+            "id": income.id,
+            "description": income.description,
+            "amount": income.amount,
+        }
+        for income in planner.incomes
+    ]
+
+
+@app.get("/expense")
+async def get_expense() -> list[dict]:
+    return [
+        {
+            "id": expense.id,
+            "description": expense.description,
+            "amount": expense.amount,
+        }
+        for expense in planner.expenses
+    ]
 
 
 @app.get("/summary")
@@ -40,5 +64,6 @@ async def summary() -> dict:
 
 
 @app.delete("/clear")
-async def clear_all() -> None:
-    return planner.clear_all()
+async def clear_all() -> dict:
+    planner.clear_all()
+    return {"message": "All data cleared successfully"}

@@ -7,7 +7,7 @@ INVALID_TYPE = "Invalid item type"
 
 @dataclass
 class Income:
-    """Represents a single income source with description and amount."""
+    """Data class that Represents a single income source ."""
 
     description: str
     amount: float
@@ -16,7 +16,7 @@ class Income:
 
 @dataclass
 class Expense:
-    """Represents a single expense item with description and amount."""
+    """Dataclass that represents a single expense  ."""
 
     description: str
     amount: float
@@ -24,7 +24,7 @@ class Expense:
 
 
 class Budget:
-    """Manage income and expense entries."""
+    """Class that manage income and expense entries."""
 
     def __init__(self) -> None:
         self._incomes: list[Income] = []
@@ -51,15 +51,18 @@ class Budget:
     @property
     def incomes(self) -> list[Income]:
         """Return a copy of all income entries."""
+
         return self._incomes.copy()
 
     @property
     def expenses(self) -> list[Expense]:
         """Return a copy of all expense entries."""
+
         return self._expenses.copy()
 
     def total(self, item_type: str) -> float:
         """Return total income or expense."""
+
         if item_type == INCOME:
             return sum(income.amount for income in self._incomes)
 
@@ -71,10 +74,11 @@ class Budget:
     @property
     def remaining_budget(self) -> float:
         """Return the remaining budget."""
+
         return self.total(INCOME) - self.total(EXPENSE)
 
     def remove(self, item_id: int, item_type: str) -> None:
-        """Remove an income or expense by its description."""
+        """Remove an income or expense by its ID  ."""
 
         if item_type == INCOME:
             for income in self._incomes:
@@ -101,6 +105,7 @@ class Budget:
 
     def summary(self) -> dict[str, float]:
         """Return a summary of the budget."""
+
         return {
             "total_income": self.total(INCOME),
             "total_expense": self.total(EXPENSE),

@@ -4,14 +4,16 @@ LINE_WIDTH = 40
 
 
 class CLI:
-    """interface for the Budget Planner application."""
+    """interface class for the Budget Planner application ."""
 
     def __init__(self) -> None:
-        """Initialize the CLI and create a Budget instance."""
+        """Initialize the CLI and create a Budget instance ."""
+
         self.budget = Budget()
 
     def actions(self) -> None:
         """Display the interactive menu and process user actions."""
+
         while True:
             data = input(
                 "===== BUDGET PLANNER =====\n"
@@ -29,21 +31,22 @@ class CLI:
                 break
 
     def _process_action(self, data: str) -> bool:
-        """Process the user's menu selection."""
+        """Process the user's menu selection ."""
+
         if data == "7":
             return False
 
         match data:
             case "1":
-                self._handle_add_income()
+                self._add_income_action()
             case "2":
-                self._handle_add_expense()
+                self._add_expense_action()
             case "3":
-                self._handle_view_summary()
+                self._view_summary_action()
             case "4":
-                self._handle_remove_income()
+                self._remove_income_action()
             case "5":
-                self._handle_remove_expense()
+                self._remove_expense_action()
             case "6":
                 self.budget.clear_all()
                 print("Your Budget is clear !!")
@@ -52,8 +55,9 @@ class CLI:
 
         return True
 
-    def _handle_view_summary(self) -> None:
+    def _view_summary_action(self) -> None:
         """Display a formatted summary of incomes, expenses, and remaining budget."""
+
         line = "=" * LINE_WIDTH
         separator = "-" * LINE_WIDTH
 
@@ -83,7 +87,7 @@ class CLI:
         formatted_remaining = f"${remaining:,.2f}"
 
         print(f"\n{line}")
-        print(f"REMAINING BUDGET:       {formatted_remaining}")
+        print(f"REMAINING BUDGET:             {formatted_remaining}")
         print(f"{line}\n")
 
     def _print_section(
@@ -95,11 +99,12 @@ class CLI:
         separator: str,
     ) -> None:
         """Print a formatted section of income or expense entries."""
+
         print(f"\n{title}")
 
         if items:
             for index, item in enumerate(items, start=1):
-                description = f"{item.description:<20}"
+                description = f"{item.description:<25}"
                 amount = f"${item.amount:,.2f}"
                 print(f"  {index}. {description} {amount}")
         else:
@@ -107,14 +112,15 @@ class CLI:
 
         formatted_total = f"${total_value:,.2f}"
         print(separator)
-        print(f"{total_label:<23} {formatted_total}")
+        print(f"{total_label:<30} {formatted_total}")
 
     def _float_amount(self, message: str) -> float:
         """Convert user input to a float value."""
         return float(input(message))
 
-    def _handle_add_income(self) -> None:
+    def _add_income_action(self) -> None:
         """Handle adding a new income entry from user input."""
+
         description = input("Enter income description: ").strip()
 
         while True:
@@ -135,17 +141,19 @@ class CLI:
             print("Income added successfully!")
             break
 
-    def _handle_add_expense(self) -> None:
-        """Handle adding a new expense entry from user input."""
+    def _add_expense_action(self) -> None:
+        """Handle adding a new expense entry from user  input."""
+
         description = input("Enter expense description: ").strip()
 
         while True:
+
             user_input = input("Enter expense amount: ").strip()
 
             try:
                 amount = float(user_input)
             except ValueError:
-                print("Invalid amount. Please enter a number.")
+                print("Invalid amount.  Please enter a number.")
                 continue
 
             try:
@@ -157,8 +165,9 @@ class CLI:
             print("Expense added successfully!")
             break
 
-    def _handle_remove_income(self) -> None:
+    def _remove_income_action(self) -> None:
         """Handle removing an income entry by ID."""
+
         if not self.budget.incomes:
             print("No incomes to remove.")
             return
@@ -189,8 +198,9 @@ class CLI:
             print("Income removed successfully!")
             break
 
-    def _handle_remove_expense(self) -> None:
+    def _remove_expense_action(self) -> None:
         """Handle removing an expense entry by ID."""
+
         if not self.budget.expenses:
             print("No expenses to remove.")
             return
