@@ -7,11 +7,11 @@ class TestBankAccount(unittest.TestCase):
     def test_bank(self) -> None:
         account = BankAccount("ACC123456")
 
-        account.deposit(1000)
-        assert account.balance == 1000
+        account.deposit(1500)
+        assert account.balance == 1500
 
-        account.withdraw(300)
-        assert account.balance == 700
+        account.withdraw(400)
+        assert account.balance == 1100
 
 
     def test_wrong_balance(self) -> None:

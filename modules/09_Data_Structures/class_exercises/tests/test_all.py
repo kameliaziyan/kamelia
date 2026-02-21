@@ -79,8 +79,8 @@ def test_get_high_earners(
 ) -> None:
     result = get_high_earners(company, given)
 
-    for dept in expected_result:
-        assert sorted(result[dept]) == sorted(expected_result[dept])
+    for result in expected_result:
+        assert sorted(result[result]) == sorted(expected_result[result])
 
 
 def test_get_average_salary_by_department(

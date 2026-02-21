@@ -125,7 +125,7 @@ class ProductsService ():
         products.append(new_product)
         return new_product
 
-    # help function
+    # help function for testing later i will remove it 
     def get_product_by_name(self, product_name: int) -> Optional[Product]:
         name = input("enter an name")
         return [ product for product in products if products["name"] == name ]

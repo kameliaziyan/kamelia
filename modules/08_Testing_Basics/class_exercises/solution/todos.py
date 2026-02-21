@@ -29,6 +29,3 @@ def fetch_sorted_todos(limit: int) -> list[dict[str, Any]]:
     return sorted_todos
 
 
-if __name__ == "__main__":
-    todos = fetch_sorted_todos(2)
-    print(todos)

@@ -1,4 +1,4 @@
-from homework.exercise6_budget_planner_api.hw6.solution.budget_planner_ui import UI
+from solution.budget_planner_ui import UI
 
 
 def main() -> None:
@@ -8,3 +8,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+#python3 -m solution.main
