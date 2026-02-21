@@ -4,6 +4,9 @@ LINE_WIDTH = 40
 STATUS_OK = 200
 BASE_URL = "http://localhost:8000"
 
+KEY_DATA = "data"
+
+
 CONNECTION_ERROR = "Cannot connect to server."
 
 
@@ -49,6 +52,82 @@ class UI:
 
         return True
 
+    def _safe_get(self, endpoint: str) -> dict | None:
+        try:
+            response = requests.get(f"{BASE_URL}{endpoint}")
+        except requests.exceptions.ConnectionError:
+            print(CONNECTION_ERROR)
+            return None
+
+        if response.status_code != STATUS_OK:
+            return None
+
+        return response.json()
+
+    def _print_section(
+        self,
+        title: str,
+        items: list,
+        total_label: str,
+        total_value: float,
+        separator: str,
+    ) -> None:
+        print(f"\n{title}")
+
+        if items:
+            for index, item in enumerate(items, start=1):
+                description = f"{item['description']:<25}"
+                amount = f"${item['amount']:,.2f}"
+                print(f"  {index}. {description} {amount}")
+        else:
+            print("  No items added.")
+
+        formatted_total = f"${total_value:,.2f}"
+        print(separator)
+        print(f"{total_label:<30} {formatted_total}")
+
+    def _view_summary_action(self) -> None:
+        summary_data = self._safe_get("/summary")
+        income_data = self._safe_get("/income")
+        expense_data = self._safe_get("/expense")
+
+        if not summary_data or not income_data or not expense_data:
+            print("Failed to retrieve summary.")
+            return
+
+        summary = summary_data[KEY_DATA]
+        incomes = income_data[KEY_DATA]
+        expenses = expense_data[KEY_DATA]
+
+        line = "=" * LINE_WIDTH
+        separator = "-" * LINE_WIDTH
+
+        print(f"\n{line}")
+        print("            BUDGET SUMMARY")
+        print(line)
+
+        self._print_section(
+            title="INCOME SOURCES:",
+            items=incomes,
+            total_label="TOTAL INCOME:",
+            total_value=summary["total_income"],
+            separator=separator,
+        )
+
+        self._print_section(
+            title="EXPENSES:",
+            items=expenses,
+            total_label="TOTAL EXPENSES:",
+            total_value=summary["total_expense"],
+            separator=separator,
+        )
+
+        print(f"\n{line}")
+        print(
+            "REMAINING BUDGET:             " f"${summary['remaining_budget']:,.2f}",
+        )
+        print(f"{line}\n")
+
     def _add_income_action(self) -> None:
         description = input("Enter income description: ").strip()
 
@@ -73,7 +152,6 @@ class UI:
                 break
             else:
                 print("Operation failed.")
-                continue
 
     def _add_expense_action(self) -> None:
         description = input("Enter expense description: ").strip()
@@ -99,36 +177,6 @@ class UI:
                 break
             else:
                 print("Operation failed.")
-                continue
-
-    def _view_summary_action(self) -> None:
-        try:
-            response = requests.get(f"{BASE_URL}/summary")
-        except requests.exceptions.ConnectionError:
-            print(CONNECTION_ERROR)
-            return
-
-        if response.status_code != STATUS_OK:
-            print("Failed to retrieve summary.")
-            return
-
-        response_data = response.json()
-
-        summary = response_data["data"]
-
-        line = "=" * LINE_WIDTH
-        separator = "-" * LINE_WIDTH
-
-        print(f"\n{line}")
-        print("        BUDGET SUMMARY")
-        print(line)
-
-        print(separator)
-        print(f"TOTAL INCOME:                 ${summary['total_income']:,.2f}")
-        print(f"TOTAL EXPENSE:                ${summary['total_expense']:,.2f}")
-        print(separator)
-        print(f"REMAINING BUDGET:             ${summary['remaining_budget']:,.2f}")
-        print(f"{line}\n")
 
     def _remove_income_action(self) -> None:
         try:
@@ -142,7 +190,7 @@ class UI:
             return
 
         response_data = response.json()
-        incomes = response_data["data"]
+        incomes = response_data[KEY_DATA]
 
         if not incomes:
             print("No incomes to remove.")
@@ -184,7 +232,7 @@ class UI:
             return
 
         response_data = response.json()
-        expenses = response_data["data"]
+        expenses = response_data[KEY_DATA]
 
         if not expenses:
             print("No expenses to remove.")
@@ -226,6 +274,3 @@ class UI:
             return
 
         print("All data cleared successfully!")
-
-
-

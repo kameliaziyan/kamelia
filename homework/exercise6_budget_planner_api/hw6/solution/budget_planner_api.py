@@ -2,15 +2,19 @@ from dataclasses import dataclass
 from fastapi import FastAPI
 from solution.budget_hw4 import Budget
 
-#run :
-#fastapi dev ./solution/budget_planner_api.py
+# run :
+# fastapi dev ./solution/budget_planner_api.py
 
 INCOME = "income"
 EXPENSE = "expense"
+KEY_MESSAGE = "message"
+KEY_DETAILS = "details"
+KEY_AMOUNT = "amount"
+KEY_DESCRIPTION = "description"
+KEY_ID = "id"
 
 app = FastAPI()
 budget_manager = Budget()
-
 
 
 @dataclass
@@ -25,16 +29,15 @@ class ExpenseRequest:
     description: str
 
 
-
 @app.post("/income")
 async def create_income(income_data: IncomeRequest) -> dict:
     budget_manager.add(income_data.description, income_data.amount, INCOME)
 
     return {
-        "message": "Income created successfully",
-        "details": {
-            "amount": income_data.amount,
-            "description": income_data.description,
+        KEY_MESSAGE: "Income created successfully",
+        KEY_DETAILS: {
+            KEY_AMOUNT: income_data.amount,
+            KEY_DESCRIPTION: income_data.description,
         },
     }
 
@@ -44,13 +47,12 @@ async def create_expense(expense_data: ExpenseRequest) -> dict:
     budget_manager.add(expense_data.description, expense_data.amount, EXPENSE)
 
     return {
-        "message": "Expense created successfully",
-        "details": {
-            "amount": expense_data.amount,
-            "description": expense_data.description,
+        KEY_MESSAGE: "Expense created successfully",
+        KEY_DETAILS: {
+            KEY_AMOUNT: expense_data.amount,
+            KEY_DESCRIPTION: expense_data.description,
         },
     }
-
 
 
 @app.delete("/income/{income_id}")
@@ -60,16 +62,16 @@ async def remove_income(income_id: int) -> dict:
             removed_income = income
             break
     else:
-        return {"message": "Income not found"}
+        return {KEY_MESSAGE: "Income not found"}
 
     budget_manager.remove(income_id, INCOME)
 
     return {
-        "message": "Income removed successfully",
-        "details": {
-            "id": removed_income.id,
-            "description": removed_income.description,
-            "amount": removed_income.amount,
+        KEY_MESSAGE: "Income removed successfully",
+        KEY_DETAILS: {
+            KEY_ID: removed_income.id,
+            KEY_DESCRIPTION: removed_income.description,
+            KEY_AMOUNT: removed_income.amount,
         },
     }
 
@@ -81,30 +83,29 @@ async def remove_expense(expense_id: int) -> dict:
             removed_expense = expense
             break
     else:
-        return {"message": "Expense not found"}
+        return {KEY_MESSAGE: "Expense not found"}
 
     budget_manager.remove(expense_id, EXPENSE)
 
     return {
-        "message": "Expense removed successfully",
-        "details": {
-            "id": removed_expense.id,
-            "description": removed_expense.description,
-            "amount": removed_expense.amount,
+        KEY_MESSAGE: "Expense removed successfully",
+        KEY_DETAILS: {
+            KEY_ID: removed_expense.id,
+            KEY_DESCRIPTION: removed_expense.description,
+            KEY_AMOUNT: removed_expense.amount,
         },
     }
-
 
 
 @app.get("/income")
 async def list_incomes() -> dict:
     return {
-        "message": "Income list retrieved",
+        KEY_MESSAGE: "Income list retrieved",
         "data": [
             {
-                "id": income.id,
-                "description": income.description,
-                "amount": income.amount,
+                KEY_ID: income.id,
+                KEY_DESCRIPTION: income.description,
+                KEY_AMOUNT: income.amount,
             }
             for income in budget_manager.incomes
         ],
@@ -114,12 +115,12 @@ async def list_incomes() -> dict:
 @app.get("/expense")
 async def list_expenses() -> dict:
     return {
-        "message": "Expense list retrieved",
+        KEY_MESSAGE: "Expense list retrieved",
         "data": [
             {
-                "id": expense.id,
-                "description": expense.description,
-                "amount": expense.amount,
+                KEY_ID: expense.id,
+                KEY_DESCRIPTION: expense.description,
+                KEY_AMOUNT: expense.amount,
             }
             for expense in budget_manager.expenses
         ],
@@ -129,7 +130,7 @@ async def list_expenses() -> dict:
 @app.get("/summary")
 async def get_summary() -> dict:
     return {
-        "message": "Summary retrieved",
+        KEY_MESSAGE: "Summary retrieved",
         "data": budget_manager.summary(),
     }
 
@@ -137,4 +138,4 @@ async def get_summary() -> dict:
 @app.delete("/clear")
 async def clear_budget() -> dict:
     budget_manager.clear_all()
-    return {"message": "All records cleared successfully"}
+    return {KEY_MESSAGE: "All records cleared successfully"}
