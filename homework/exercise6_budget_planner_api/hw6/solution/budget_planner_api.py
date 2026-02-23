@@ -12,6 +12,7 @@ KEY_DETAILS = "details"
 KEY_AMOUNT = "amount"
 KEY_DESCRIPTION = "description"
 KEY_ID = "id"
+KEY_DATA = "data"
 
 app = FastAPI()
 budget_manager = Budget()
@@ -101,7 +102,7 @@ async def remove_expense(expense_id: int) -> dict:
 async def list_incomes() -> dict:
     return {
         KEY_MESSAGE: "Income list retrieved",
-        "data": [
+        KEY_DATA: [
             {
                 KEY_ID: income.id,
                 KEY_DESCRIPTION: income.description,
@@ -116,7 +117,7 @@ async def list_incomes() -> dict:
 async def list_expenses() -> dict:
     return {
         KEY_MESSAGE: "Expense list retrieved",
-        "data": [
+        KEY_DATA: [
             {
                 KEY_ID: expense.id,
                 KEY_DESCRIPTION: expense.description,
@@ -131,7 +132,7 @@ async def list_expenses() -> dict:
 async def get_summary() -> dict:
     return {
         KEY_MESSAGE: "Summary retrieved",
-        "data": budget_manager.summary(),
+        KEY_DATA: budget_manager.summary(),
     }
 
 
