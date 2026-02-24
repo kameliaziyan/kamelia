@@ -17,10 +17,12 @@ def test_set_and_get(
 ) -> None:
     cache = MyLruCache(maxsize=3, ttl=10)
     cache.set(cache_key, cache_value)
+
     assert cache.get(cache_key) == cache_value
 
 
 def test_missing_key_and_len_behavior() -> None:
+
     cache = MyLruCache(maxsize=3, ttl=10)
     assert cache.get("non_existing_key") is None
     assert len(cache) == 0
@@ -30,6 +32,7 @@ def test_update_existing_key() -> None:
     cache = MyLruCache(maxsize=3, ttl=10)
     cache.set("user_identifier", 100)
     cache.set("user_identifier", 200)
+
     assert cache.get("user_identifier") == 200
 
 
@@ -50,10 +53,12 @@ def test_lru_eviction(
     cache.set(first_inserted, 1)
     cache.set(second_inserted, 2)
     cache.set(third_inserted, 3)
+
     assert cache.get(expected_evicted) is None
 
 
 def test_access_prevents_eviction_maxsize() -> None:
+
     cache = MyLruCache(maxsize=2, ttl=10)
     cache.set("first_item", 1)
     cache.set("second_item", 2)
@@ -70,6 +75,7 @@ def test_ttl_expiration(time_to_live: float) -> None:
     cache = MyLruCache(maxsize=2, ttl=time_to_live)
     cache.set("temporary_key", 123)
     time.sleep(time_to_live + 0.1)
+
     assert cache.get("temporary_key") is None
 
 
@@ -81,12 +87,12 @@ def test_refresh_and_contains_behavior() -> None:
     cache.set("refreshable_key", 20)
 
     assert "refreshable_key" in cache
-
     time.sleep(0.6)
     assert cache.get("refreshable_key") == 20
 
 
 def test_clear() -> None:
+
     cache = MyLruCache(maxsize=3, ttl=10)
     cache.set("first_key", 1)
     cache.set("second_key", 2)

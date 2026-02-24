@@ -5,6 +5,8 @@ STATUS_OK = 200
 BASE_URL = "http://localhost:8000"
 
 KEY_DATA = "data"
+CANCEL_OPTION = "0"
+OPERATION_FAILED = "Operation failed."
 
 
 CONNECTION_ERROR = "Cannot connect to server."
@@ -132,10 +134,12 @@ class UI:
         description = input("Enter income description: ").strip()
 
         while True:
+            amount_input = input("Enter income amount: ").strip()
+
             try:
-                amount = float(input("Enter income amount: "))
+                amount = float(amount_input)
             except ValueError:
-                print("Invalid amount. Please enter a number.")
+                print("Invalid amount. Please enter a valid number.")
                 continue
 
             try:
@@ -148,19 +152,21 @@ class UI:
                 return
 
             if response.status_code == STATUS_OK:
-                print("Income added successfully!")
-                break
-            else:
-                print("Operation failed.")
+                print("Income added successfully.")
+                return
+
+            print(OPERATION_FAILED)
 
     def _add_expense_action(self) -> None:
         description = input("Enter expense description: ").strip()
 
         while True:
+            amount_input = input("Enter expense amount: ").strip()
+
             try:
-                amount = float(input("Enter expense amount: "))
+                amount = float(amount_input)
             except ValueError:
-                print("Invalid amount. Please enter a number.")
+                print("Invalid amount. Please enter a valid number.")
                 continue
 
             try:
@@ -173,10 +179,10 @@ class UI:
                 return
 
             if response.status_code == STATUS_OK:
-                print("Expense added successfully!")
-                break
-            else:
-                print("Operation failed.")
+                print("Expense added successfully.")
+                return
+
+            print(OPERATION_FAILED)
 
     def _remove_income_action(self) -> None:
         try:
@@ -193,7 +199,7 @@ class UI:
         incomes = response_data[KEY_DATA]
 
         if not incomes:
-            print("No incomes to remove.")
+            print("No incomes available to remove.")
             return
 
         print("\nCurrent Incomes:")
@@ -204,21 +210,29 @@ class UI:
                 f"${income['amount']:,.2f}",
             )
 
-        try:
-            item_id = int(input("Enter income ID to remove: "))
-        except ValueError:
-            print("Invalid ID.")
-            return
+        while True:
+            try:
+                item_id = int(input("Enter income ID to remove: "))
+            except ValueError:
+                print("Invalid ID. Please enter a valid number.")
+                continue
 
-        delete_response = requests.delete(
-            f"{BASE_URL}/income/{item_id}",
-        )
+            delete_response = requests.delete(
+                f"{BASE_URL}/income/{item_id}",
+            )
 
-        if delete_response.status_code != STATUS_OK:
-            print("Income not found.")
-            return
+            if delete_response.status_code != STATUS_OK:
+                print(OPERATION_FAILED)
+                continue
 
-        print("Income removed successfully!")
+            message = delete_response.json().get(
+                "message",
+                "Income removed.",
+            )
+            print(message)
+
+            if message == "Income removed successfully":
+                return
 
     def _remove_expense_action(self) -> None:
         try:
@@ -235,7 +249,7 @@ class UI:
         expenses = response_data[KEY_DATA]
 
         if not expenses:
-            print("No expenses to remove.")
+            print("No expenses available to remove.")
             return
 
         print("\nCurrent Expenses:")
@@ -246,21 +260,29 @@ class UI:
                 f"${expense['amount']:,.2f}",
             )
 
-        try:
-            item_id = int(input("Enter expense ID to remove: "))
-        except ValueError:
-            print("Invalid ID.")
-            return
+        while True:
+            try:
+                item_id = int(input("Enter expense ID to remove: "))
+            except ValueError:
+                print("Invalid ID. Please enter a valid number.")
+                continue
 
-        delete_response = requests.delete(
-            f"{BASE_URL}/expense/{item_id}",
-        )
+            delete_response = requests.delete(
+                f"{BASE_URL}/expense/{item_id}",
+            )
 
-        if delete_response.status_code != STATUS_OK:
-            print("Expense not found.")
-            return
+            if delete_response.status_code != STATUS_OK:
+                print(OPERATION_FAILED)
+                continue
 
-        print("Expense removed successfully!")
+            message = delete_response.json().get(
+                "message",
+                "Expense removed.",
+            )
+            print(message)
+
+            if message == "Expense removed successfully":
+                return
 
     def _clear_all_action(self) -> None:
         try:

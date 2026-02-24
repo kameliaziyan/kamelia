@@ -22,10 +22,13 @@ class _DoublyLinkedList:
 
     def add_to_front(self, node: _Node) -> None:
 
-        node.next = self._head.next
+        first_node = self._head.next
         node.prev = self._head
-        assert node.next is not None
-        node.next.prev = node
+        node.next = first_node
+
+        if first_node is not None:
+            first_node.prev = node
+
         self._head.next = node
 
     def remove(self, node: _Node) -> None:
@@ -40,7 +43,6 @@ class _DoublyLinkedList:
 
         prev_node.next = next_node
         next_node.prev = prev_node
-
         node.prev = None
         node.next = None
 
@@ -50,8 +52,9 @@ class _DoublyLinkedList:
         self.add_to_front(node)
 
     def remove_last(self) -> Optional[_Node]:
-
         last_node = self._tail.prev
+
+        if_node = self._tail.prev
 
         if last_node is None or last_node is self._head:
             return None
@@ -60,7 +63,6 @@ class _DoublyLinkedList:
         return last_node
 
     def clear(self) -> None:
-
         self._head.next = self._tail
         self._tail.prev = self._head
 
@@ -80,7 +82,6 @@ class MyLruCache:
         self._linked_list = _DoublyLinkedList()
 
     def get(self, key: str) -> Any | None:
-
         node = self._cache.get(key)
 
         if node is None:
@@ -97,7 +98,6 @@ class MyLruCache:
     def set(self, key: str, value: Any) -> None:
 
         existing_node = self._cache.get(key)
-
         if existing_node is not None:
             existing_node.value = value
             existing_node.timestamp = time.time()

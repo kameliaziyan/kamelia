@@ -15,7 +15,7 @@ class Item:
         return (
             f"Item: {self.name}, "
             f"Price: ${self.base_price:.2f}, "
-            f"Weight: {self.weight:.2f}kg"
+            f"Weight: {self.weight:.2f} kg"
         )
 
 
@@ -73,6 +73,7 @@ class Product(Item, DiscountMixin, ShippingMixin):
 
 
 class DigitalProduct(Item, DiscountMixin):
+
     def __init__(
         self,
         name: str,

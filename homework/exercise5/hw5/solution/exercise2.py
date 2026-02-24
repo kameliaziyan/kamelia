@@ -28,6 +28,7 @@ class Employee:
 
 
 class FullTimeEmployee(Employee):
+
     def __init__(
         self,
         employee_id: str,

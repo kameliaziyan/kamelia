@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from fastapi import FastAPI
-from solution.budget_hw4 import Budget
+from solution.budget_hw4_bonus import Budget
 
 # run :
 # fastapi dev ./solution/budget_planner_api.py

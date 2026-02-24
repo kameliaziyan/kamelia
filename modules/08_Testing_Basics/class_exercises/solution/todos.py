@@ -4,18 +4,18 @@ import requests
 BASE_URL = "https://jsonplaceholder.typicode.com/todos"
 
 
-def fetch_sorted_todos(limit: int) -> list[dict[str, Any]]:
-
+def fetch_sorted_todos(limit: int = 20) -> list[dict[str, Any]]:
     if limit < 1:
-        raise ValueError("limit must be begger than 0")
+        raise ValueError("limit must be bigger than 0")
 
-    response = requests.get(BASE_URL)
-    response.raise_for_status()
+    todos: list[dict[str, Any]] = []
 
-    result = response.json()
-    todos = []
+    for number in range(1, limit + 1):
+        response = requests.get(f"{BASE_URL}/{number}")
+        response.raise_for_status()
 
-    for item in result[:limit]:
+        item: dict[str, Any] = response.json()
+
         todo = {
             "id": item["id"],
             "userId": item["userId"],
@@ -25,7 +25,4 @@ def fetch_sorted_todos(limit: int) -> list[dict[str, Any]]:
 
         todos.append(todo)
 
-    sorted_todos = sorted(todos, key=lambda todo: todo["title"])
-    return sorted_todos
-
-
+    return sorted(todos, key=lambda todo: todo["title"])
