@@ -4,26 +4,27 @@ from solution.exercise3 import MyLruCache
 
 
 @pytest.mark.parametrize(
-    "cache_key,cache_value",
-    [
-        ("first_key", 1),
-        ("second_key", "hello"),
-        ("third_key", {"field": 10}),
-    ],
+        "cache_key,cache_value",
+        [
+            ("first_key", 1),
+            ("second_key", "hello"),
+            ("third_key", {"field": 10}),
+        ],
 )
 def test_set_and_get(
     cache_key: str,
-    cache_value: object,
+    cache_value: object
 ) -> None:
-    cache = MyLruCache(maxsize=3, ttl=10)
+    cache = MyLruCache(maxsize = 3, ttl = 10)
     cache.set(cache_key, cache_value)
 
     assert cache.get(cache_key) == cache_value
 
 
+
 def test_missing_key_and_len_behavior() -> None:
 
-    cache = MyLruCache(maxsize=3, ttl=10)
+    cache = MyLruCache(maxsize = 3, ttl = 10)
     assert cache.get("non_existing_key") is None
     assert len(cache) == 0
 
@@ -32,7 +33,6 @@ def test_update_existing_key() -> None:
     cache = MyLruCache(maxsize=3, ttl=10)
     cache.set("user_identifier", 100)
     cache.set("user_identifier", 200)
-
     assert cache.get("user_identifier") == 200
 
 

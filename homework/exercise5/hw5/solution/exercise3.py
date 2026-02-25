@@ -138,3 +138,4 @@ class MyLruCache:
 
     def _is_expired(self, node: _Node) -> bool:
         return (time.time() - node.timestamp) > self.ttl
+ 

@@ -1,8 +1,6 @@
 import json
 from pathlib import Path
-
 import pytest
-
 from solution.repository.file_accessor import JsonFileAccessor
 
 
@@ -17,18 +15,15 @@ def test_write_and_read(tmp_path: Path) -> None:
 
     assert result == data
 
-
 def test_read_non_existing_file(tmp_path: Path) -> None:
 
     file_path = tmp_path / "missing.json"
     accessor = JsonFileAccessor(str(file_path))
     result = accessor.read()
-
     assert result == {"items": []}
 
 
 def test_overwrite_data(tmp_path: Path) -> None:
-
     file_path = tmp_path / "data.json"
 
     accessor = JsonFileAccessor(str(file_path))
@@ -37,3 +32,5 @@ def test_overwrite_data(tmp_path: Path) -> None:
     result = accessor.read()
 
     assert result["items"][0]["id"] == 2
+
+

@@ -6,27 +6,29 @@ def test_employee_compensation() -> None:
     assert david.calculate_compensation() == 32.5 * 160
 
 
+
 def test_fulltime_compensation() -> None:
-    maya = FullTimeEmployee("E102", "Maya Levi", 84000, "Marketing")
+    maya = FullTimeEmployee("102", "Maya Levi", 84000, "Marketing")
     assert maya.calculate_compensation() == 84000 / 12
 
 
 def test_manager_compensation() -> None:
     noam = Manager("E103", "Noam Adler", 132000, "Finance", 6, 0.12)
-    expected = ( 132000 / 12 ) * 1.12
+    expected = ( 132000 / 12) * 1.12
     assert noam.calculate_compensation() == expected
+    
 
 
 def test_total_payroll() -> None:
-    emp1 = Employee("E201", "Lior Katz", 28.0)
-    emp2 = FullTimeEmployee("E202", "Shira Gold", 72000, "Sales")
-    emp3 = Manager("E203", "Omer Rubin", 110000, "Operations", 4, 0.08)
+    employee1 = Employee("E201", "Lior Katz", 28.0)
+    employee2 = FullTimeEmployee("E202", "Shira Gold", 72000, "Sales")
+    employee3 = Manager("E203", "Omer Rubin", 110000, "Operations", 4, 0.08)
 
-    employees = [emp1, emp2, emp3]
+    employees = [employee1, employee2, employee3]
     total = sum(emp.calculate_compensation() for emp in employees)
-
-    expected_total = 28.0 * 160 + 72000 / 12 + ( 110000 / 12 ) * 1.08
+    expected_total = 28.0 * 160 + 72000 / 12 + ( 110000 / 12) * 1.08
     assert total == expected_total
+
 
 
 def test_information_contains() -> None:
