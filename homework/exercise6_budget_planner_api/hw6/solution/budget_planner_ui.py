@@ -60,10 +60,8 @@ class UI:
         except requests.exceptions.ConnectionError:
             print(CONNECTION_ERROR)
             return None
-
         if response.status_code != STATUS_OK:
             return None
-
         return response.json()
 
     def _print_section(
@@ -147,6 +145,7 @@ class UI:
                     f"{BASE_URL}/income",
                     json={"description": description, "amount": amount},
                 )
+
             except requests.exceptions.ConnectionError:
                 print(CONNECTION_ERROR)
                 return
@@ -174,6 +173,7 @@ class UI:
                     f"{BASE_URL}/expense",
                     json={"description": description, "amount": amount},
                 )
+
             except requests.exceptions.ConnectionError:
                 print(CONNECTION_ERROR)
                 return
@@ -230,7 +230,6 @@ class UI:
                 "Income removed.",
             )
             print(message)
-
             if message == "Income removed successfully":
                 return
 
