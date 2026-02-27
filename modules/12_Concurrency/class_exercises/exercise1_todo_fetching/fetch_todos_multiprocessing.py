@@ -22,10 +22,14 @@ def fetch_todo(todo_id: int) -> dict[str, Any]:
 
 
 def print_summary(total_time: float, count: int) -> None:
-    average_time = total_time / count if count else float()
+    if count:
+        avg_time = total_time / count
+
+    else:
+        avg_time = float()
 
     print(f"Total execution time: {total_time:.2f} seconds")
-    print(f"Average time per request: {average_time:.3f} seconds")
+    print(f"Average time per request: {avg_time:.3f} seconds")
 
 
 def main() -> None:
@@ -34,9 +38,9 @@ def main() -> None:
     results_count = 0
 
     with ProcessPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        results = executor.map(fetch_todo, range(1, TOTAL_TODOS + 1))
+        futures = executor.map(fetch_todo, range(1, TOTAL_TODOS + 1))
 
-        for result in results:
+        for result in futures:
             todo_id = result["id"]
             title = result["title"]
             print(f"TODO {todo_id}: {title}")

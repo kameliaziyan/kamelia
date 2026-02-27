@@ -22,10 +22,14 @@ def fetch_todo(todo_id: int) -> dict[str, Any]:
 
 
 def print_summary(total_time: float, count: int) -> None:
-    average_time = total_time / count if count else float()
+    if count:
+        avg_time = total_time / count
+
+    else:
+        avg_time = float()
 
     print(f"Total execution time: {total_time:.2f} seconds")
-    print(f"Average time per request: {average_time:.3f} seconds")
+    print(f"Average time per request: {avg_time:.3f} seconds")
 
 
 def main() -> None:
