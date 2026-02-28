@@ -1,13 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
-from fastapi import FastAPI
 
-
-app = FastAPI()
-
-@app.get("/hello")
-def hello():
-    return{"hello" : "world"}
 
 
 #For product list:
@@ -86,12 +79,6 @@ products = [
 
 
 
-#- `id` (int) - Unique product identifier
-#- `name` (str) - Product name
-#- `description` (str) - Product description
-#- `price` (float) - Product price in dollars
-#- `stock` (int) - Available quantity in stock
-
 @dataclass
 class Product:
     id : int
@@ -102,66 +89,31 @@ class Product:
 
 
 class ProductsService ():
-    def __init__(self):
-        pass
+    def __init__(self) -> None:
+        self.products: list[Product] = [ Product(**product) for product in products]
+
     def get_all_products(self) -> list[Product]:
-        return products
+        return self.products
     
-    def get_product_by_id(self, product_id: int):
-        for product in products:
-            if product["id"] == product_id:
+    def get_product_by_id(self, product_id: int) -> Optional[Product]:
+        for product in self.products:
+            if product.id == product_id:
               return product
         return None
 
         
-    def create_product(self, name: str, description: str, price: float, stock: int):
-        new_product = {
-        "id": len(products) + 1,
-        "name": name,
-        "description": description,
-        "price": price,
-        "stock": stock
-          }
-        products.append(new_product)
+    def create_product(self, name: str, description: str, price: float, stock: int) -> Product:
+        new_id = len(self.products) + 1
+
+        new_product = Product(
+        id = new_id,
+        name = name,
+        description = description,
+        price = price,
+        stock = stock
+          )
+        self.products.append(new_product)
         return new_product
 
-    # help function for testing later i will remove it 
-    def get_product_by_name(self, product_name: int) -> Optional[Product]:
-        name = input("enter an name")
-        return [ product for product in products if products["name"] == name ]
-
-
-products_serves = ProductsService()
-
-@app.get("/products")
-async def get_products():
-    return products_serves.get_all_products()
-
-@app.get("/products_id")
-async def get_products_id():
-    return products_serves.get_product_by_id()
-
-
-
-@app.post("/products")
-async def create_product(
-    name: str,
-    description: str,
-    price: float,
-    stock: int,
-):
-    return products_serves.create_product(
-        name,
-        description,
-        price,
-        stock,
-    )
-
-@app.get("/products_name")
-async def get_products_name():
-    return products_serves.get_product_by_name()
-
-
-
-    
+  
 
