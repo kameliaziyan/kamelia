@@ -1,0 +1,14 @@
+{
+    "items": [
+        {
+            "description": "nails",
+            "amount": 100.0,
+            "id": 1
+        },
+        {
+            "description": "food",
+            "amount": 200.0,
+            "id": 2
+        }
+    ]
+}
