@@ -3,7 +3,6 @@ import asyncio
 from typing import Dict
 from constants import HOST, DB_PORT
 
-
 SIMULATED_DB_DELAY = 1.0  # seconds
 
 
@@ -19,4 +18,5 @@ async def query_db() -> Dict[str, str]:
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host=HOST, port=DB_PORT)

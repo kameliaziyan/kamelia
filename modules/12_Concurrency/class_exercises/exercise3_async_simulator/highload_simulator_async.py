@@ -30,11 +30,9 @@ async def run_load_test(url: str, description: str) -> None:
     start_time = time.time()
 
     async with aiohttp.ClientSession() as session:
-        tasks = [ make_request(session,url,number) for number in range (NUM_REQUESTS)]
+        tasks = [make_request(session, url, number) for number in range(NUM_REQUESTS)]
 
         times: List[float] = await asyncio.gather(*tasks)
-
-    
 
     total_time = time.time() - start_time
 

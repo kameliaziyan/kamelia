@@ -3,7 +3,6 @@ import requests
 from typing import Dict
 from constants import HOST, DB_PORT, BAD_HANDLER_PORT
 
-
 DB_URL = f"http://{HOST}:{DB_PORT}/query"
 
 
@@ -22,4 +21,5 @@ async def get_data() -> Dict[str, str]:
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host=HOST, port=BAD_HANDLER_PORT)

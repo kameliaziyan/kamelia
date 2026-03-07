@@ -8,7 +8,7 @@ URL = "http://localhost:8000/process_order?user_id=123&product_id=456&zip_code=1
 NUMBER_REQUESTS = 20
 
 
-async def send_request(session):
+async def send_request(session: aiohttp.ClientSession) -> float:
     start = time.perf_counter()
 
     async with session.get(URL) as response:
@@ -18,7 +18,7 @@ async def send_request(session):
     return end - start
 
 
-async def main()-> None:
+async def main() -> None:
     start_total = time.perf_counter()
 
     async with aiohttp.ClientSession() as session:

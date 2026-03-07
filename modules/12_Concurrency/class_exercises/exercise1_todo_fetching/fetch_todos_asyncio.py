@@ -1,5 +1,4 @@
 import asyncio
-from timeit import main
 import timeit
 from typing import Any
 
@@ -25,7 +24,7 @@ async def fetch_todo(session: aiohttp.ClientSession, todo_id: int) -> dict[str, 
 async def main() -> None:
     start_time = timeit.default_timer()
     async with aiohttp.ClientSession() as session:
-        tasks = [fetch_todo(session, item) for item in range(1, 21)]
+        tasks = [fetch_todo(session, item) for item in range(1, TOTAL_TODOS + 1)]
 
         results = await asyncio.gather(*tasks)
 
