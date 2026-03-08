@@ -1,9 +1,9 @@
 from collections import defaultdict
 from decimal import Decimal
 
-from hw8.solution.models.category import CategoryType
-from hw8.solution.services.category_services import CategoryService
-from hw8.solution.services.transaction_services import TransactionService
+from solution.models.category import CategoryType
+from solution.services.category_services import CategoryService
+from solution.services.transaction_services import TransactionService
 
 
 class ReportService:
@@ -13,7 +13,10 @@ class ReportService:
 
     def spending_by_category(self, year: int, month: int) -> dict[str, Decimal]:
         transactions = self._transaction_service.transactions
-        categories = {category.id: category for category in self._category_service.categories}
+        categories = {
+                category.id: category for category in self._category_service.categories
+
+        }
         result: dict[str, Decimal] = {}
 
         for transaction in transactions:

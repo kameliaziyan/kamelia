@@ -3,8 +3,8 @@ from decimal import Decimal
 from datetime import date
 from fastapi import APIRouter
 
-from hw8.solution.models.transfer import Transfer
-from hw8.solution.services.transfer_services import TransferService
+from solution.models.transfer import Transfer
+from solution.services.transfer_services import TransferService
 
 KEY_MESSAGE = "message"
 KEY_DATA = "data"

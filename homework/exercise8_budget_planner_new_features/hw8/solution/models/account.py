@@ -8,3 +8,6 @@ class Account:
     name: str
     opening_balance: Decimal
     is_deleted: bool = False
+
+
+

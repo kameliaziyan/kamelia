@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from decimal import Decimal
 
-from hw8.solution.models.account import Account
-from hw8.solution.services.account_services import AccountService
+from solution.models.account import Account
+from solution.services.account_services import AccountService
 from fastapi import APIRouter
 
 KEY_MESSAGE = "message"

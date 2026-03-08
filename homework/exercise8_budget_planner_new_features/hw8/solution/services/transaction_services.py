@@ -1,5 +1,5 @@
-from hw8.solution.models.transaction import Transaction
-from hw8.solution.repository.transaction_repository import TransactionRepository
+from solution.models.transaction import Transaction
+from solution.repository.transaction_repository import TransactionRepository
 
 
 class TransactionService:

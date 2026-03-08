@@ -1,6 +1,6 @@
-from hw8.solution.models.transaction import Transaction
-from hw8.solution.repository.base_repository import BaseRepository
-from hw8.solution.repository.csv_accessor import CsvFileAccessor
+from solution.models.transaction import Transaction
+from solution.repository.base_repository import BaseRepository
+from solution.repository.csv_accessor import CsvFileAccessor
 
 
 class TransactionRepository(BaseRepository[Transaction]):

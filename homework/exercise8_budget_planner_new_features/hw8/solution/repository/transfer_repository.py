@@ -1,6 +1,6 @@
-from hw8.solution.models.transfer import Transfer
-from hw8.solution.repository.base_repository import BaseRepository
-from hw8.solution.repository.csv_accessor import CsvFileAccessor
+from solution.models.transfer import Transfer
+from solution.repository.base_repository import BaseRepository
+from solution.repository.csv_accessor import CsvFileAccessor
 
 
 class TransferRepository(BaseRepository[Transfer]):

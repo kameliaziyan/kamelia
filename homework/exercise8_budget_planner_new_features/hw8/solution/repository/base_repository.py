@@ -1,6 +1,8 @@
+from datetime import date
+from decimal import Decimal
 from typing import Generic, List, Type, TypeVar
 
-from hw8.solution.repository.csv_accessor import CsvFileAccessor
+from solution.repository.csv_accessor import CsvFileAccessor
 
 ModelT = TypeVar("ModelT")
 ID = "id"
@@ -33,13 +35,14 @@ class BaseRepository(Generic[ModelT]):
 
         for row in rows:
             if int(row[ID]) == item_id:
+                row = self._convert_types(row)
                 return self.model_type(**row)
 
         raise ValueError("Item not found")
 
     def get_all(self) -> List[ModelT]:
         rows = self.accessor.read()
-        return [self.model_type(**row) for row in rows]
+        return [self.model_type(**self._convert_types(row)) for row in rows]
 
     def delete(self, item_id: int) -> None:
         rows = self.accessor.read()
@@ -57,3 +60,25 @@ class BaseRepository(Generic[ModelT]):
 
         self.accessor.write(rows)
         return item
+    
+    def _convert_types(self, row:dict) -> dict:
+        result = row.copy()
+
+        if "id" in result:
+            result["id"] = int(result["id"])
+
+        if "opening_balance" in result:
+            result["opening_balance"] = Decimal(result["opening_balance"])
+
+        if "amount" in result:
+            result["amount"] = Decimal(result["amount"])
+
+        if "is_deleted" in result:
+            result["is_deleted"] = result["is_deleted"] == "True"
+
+        if "date" in result:
+            result["date"] = date.fromisoformat(result["date"])
+
+        return result
+
+

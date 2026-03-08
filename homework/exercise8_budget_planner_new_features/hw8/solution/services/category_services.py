@@ -1,5 +1,5 @@
-from hw8.solution.models.category import Category
-from hw8.solution.repository.category_repository import CategoryRepository
+from solution.models.category import Category
+from solution.repository.category_repository import CategoryRepository
 
 
 class CategoryService:

@@ -1,6 +1,6 @@
-from hw8.solution.models.account import Account
-from hw8.solution.repository.base_repository import BaseRepository
-from hw8.solution.repository.csv_accessor import CsvFileAccessor
+from solution.models.account import Account
+from solution.repository.base_repository import BaseRepository
+from solution.repository.csv_accessor import CsvFileAccessor
 
 
 class AccountRepository(BaseRepository[Account]):

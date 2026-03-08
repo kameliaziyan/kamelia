@@ -1,5 +1,5 @@
-from hw8.solution.models.transfer import Transfer
-from hw8.solution.repository.transfer_repository import TransferRepository
+from solution.models.transfer import Transfer
+from solution.repository.transfer_repository import TransferRepository
 
 
 class TransferService:

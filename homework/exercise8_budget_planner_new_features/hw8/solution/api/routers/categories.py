@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 from fastapi import APIRouter
 
-from hw8.solution.models.category import Category, CategoryType
-from hw8.solution.services.category_services import CategoryService
+from solution.models.category import Category, CategoryType
+from solution.services.category_services import CategoryService
 
 KEY_MESSAGE = "message"
 KEY_DATA = "data"

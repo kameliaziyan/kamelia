@@ -1,0 +1,3 @@
+id,name,opening_balance,is_deleted
+1,bank,2000,True
+2,bank2,1500,False

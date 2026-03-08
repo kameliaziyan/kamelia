@@ -3,8 +3,8 @@ from decimal import Decimal
 from datetime import date
 from fastapi import APIRouter
 
-from hw8.solution.models.transaction import Transaction
-from hw8.solution.services.transaction_services import TransactionService
+from solution.models.transaction import Transaction
+from solution.services.transaction_services import TransactionService
 
 KEY_MESSAGE = "message"
 KEY_DATA = "data"

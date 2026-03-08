@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from hw8.solution.services.report_services import ReportService
+from solution.services.report_services import ReportService
 
 KEY_MESSAGE = "message"
 KEY_DATA = "data"

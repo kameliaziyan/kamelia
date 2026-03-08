@@ -1,11 +1,11 @@
 from decimal import Decimal
 
-from hw8.solution.models.account import Account
-from hw8.solution.models.category import CategoryType
-from hw8.solution.repository.account_repository import AccountRepository
-from hw8.solution.repository.category_repository import CategoryRepository
-from hw8.solution.repository.transaction_repository import TransactionRepository
-from hw8.solution.repository.transfer_repository import TransferRepository
+from solution.models.account import Account
+from solution.models.category import CategoryType
+from solution.repository.account_repository import AccountRepository
+from solution.repository.category_repository import CategoryRepository
+from solution.repository.transaction_repository import TransactionRepository
+from solution.repository.transfer_repository import TransferRepository
 
 
 class AccountService:
