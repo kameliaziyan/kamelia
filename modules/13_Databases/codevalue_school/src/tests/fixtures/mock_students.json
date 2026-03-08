@@ -1,0 +1,20 @@
+[
+  {
+    "first_name": "Alice",
+    "last_name": "Cohen",
+    "email": "alice.cohen@school.com",
+    "birth_date": "2000-05-15"
+  },
+  {
+    "first_name": "Bob",
+    "last_name": "Levi",
+    "email": "bob.levi@school.com",
+    "birth_date": "1998-11-22"
+  },
+  {
+    "first_name": "Dana",
+    "last_name": "Shapiro",
+    "email": "dana.shapiro@school.com",
+    "birth_date": null
+  }
+]
