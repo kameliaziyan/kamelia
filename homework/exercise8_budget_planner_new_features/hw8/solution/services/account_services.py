@@ -20,25 +20,19 @@ class AccountService:
     def accounts(self) -> list[Account]:
         accounts = self._account_repository.get_all()
         return [account for account in accounts if not account.is_deleted]
-    
 
     @property
     def net_worth(self) -> Decimal:
         return sum(
-        (self.balance(account.id) for account in self.accounts),
-        Decimal("0"),
-
+            (self.balance(account.id) for account in self.accounts),
+            Decimal("0"),
         )
-
-
 
     def add(self, account: Account) -> Account:
         return self._account_repository.create(account)
 
     def get(self, account_id: int) -> Account:
         return self._account_repository.get(account_id)
-    
-    
 
     def balance(self, account_id: int) -> Decimal:
         account = self._account_repository.get(account_id)
@@ -49,7 +43,6 @@ class AccountService:
         balance += self._transfer_balance(account_id)
 
         return balance
-    
 
     def remove(self, account_id: int) -> None:
         account = self._account_repository.get(account_id)
@@ -57,13 +50,13 @@ class AccountService:
 
         self._account_repository.update(account)
 
-
-
     def _transaction_balance(self, account_id: int) -> Decimal:
         balance = Decimal("0")
 
         transactions = self._transaction_repository.get_all()
-        categories = {category.id: category for category in self._category_repository.get_all()}
+        categories = {
+            category.id: category for category in self._category_repository.get_all()
+        }
 
         for transaction in transactions:
             if transaction.account_id != account_id or transaction.is_deleted:
@@ -74,10 +67,10 @@ class AccountService:
             if category.type == CategoryType.INCOME:
                 balance += transaction.amount
             else:
-                balance -=transaction.amount
+                balance -= transaction.amount
 
         return balance
-    
+
     def _transfer_balance(self, account_id: int) -> Decimal:
         balance = Decimal("0")
 
@@ -94,4 +87,3 @@ class AccountService:
                 balance -= transfer.amount
 
         return balance
-

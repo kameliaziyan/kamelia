@@ -22,7 +22,7 @@ class CsvFileAccessor:
     def write(self, rows: List[Dict[str, Any]]) -> None:
 
         if not rows:
-            with open(self.file_path, "w",  encoding="utf-8"):
+            with open(self.file_path, "w", encoding="utf-8"):
                 return
 
         fieldnames = rows[0].keys()

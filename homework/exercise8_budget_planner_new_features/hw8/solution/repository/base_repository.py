@@ -60,25 +60,28 @@ class BaseRepository(Generic[ModelT]):
 
         self.accessor.write(rows)
         return item
-    
-    def _convert_types(self, row:dict) -> dict:
+
+    def _convert_types(self, row: dict) -> dict:
         result = row.copy()
 
-        if "id" in result:
-            result["id"] = int(result["id"])
+        identifier = result.get(ID)
+        if identifier is not None:
+            result[ID] = int(identifier)
 
-        if "opening_balance" in result:
-            result["opening_balance"] = Decimal(result["opening_balance"])
+        opening_balance = result.get("opening_balance")
+        if opening_balance is not None:
+            result["opening_balance"] = Decimal(opening_balance)
 
-        if "amount" in result:
-            result["amount"] = Decimal(result["amount"])
+        amount = result.get("amount")
+        if amount is not None:
+            result["amount"] = Decimal(amount)
 
-        if "is_deleted" in result:
-            result["is_deleted"] = result["is_deleted"] == "True"
+        is_deleted = result.get("is_deleted")
+        if is_deleted is not None:
+            result["is_deleted"] = is_deleted == "True"
 
-        if "date" in result:
-            result["date"] = date.fromisoformat(result["date"])
+        date = result.get("date")
+        if date is not None:
+            result["date"] = date.fromisoformat(date)
 
         return result
-
-

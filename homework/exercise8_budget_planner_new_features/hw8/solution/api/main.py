@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-
 from solution.api.routers import (
     accounts,
     categories,
@@ -8,6 +7,7 @@ from solution.api.routers import (
     transfers,
     csv_zip,
 )
+
 
 app = FastAPI()
 
@@ -19,4 +19,4 @@ app.include_router(reports.router)
 app.include_router(csv_zip.router)
 
 
-# python3 -m solution.main
+# uvicorn solution.api.main:app --reload

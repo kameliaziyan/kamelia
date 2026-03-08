@@ -14,8 +14,7 @@ class ReportService:
     def spending_by_category(self, year: int, month: int) -> dict[str, Decimal]:
         transactions = self._transaction_service.transactions
         categories = {
-                category.id: category for category in self._category_service.categories
-
+            category.id: category for category in self._category_service.categories
         }
         result: dict[str, Decimal] = {}
 
