@@ -8,7 +8,6 @@ from solution.api.routers import (
     csv_zip,
 )
 
-
 app = FastAPI()
 
 app.include_router(accounts.router)

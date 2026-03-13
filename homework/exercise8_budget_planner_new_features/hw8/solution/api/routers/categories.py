@@ -38,7 +38,7 @@ async def create_category(category_data: CategoryRequest) -> dict:
         KEY_DETAILS: {
             KEY_ID: created_category.id,
             KEY_NAME: created_category.name,
-            KEY_TYPE: str(created_category.type.value),
+            KEY_TYPE: str(created_category.type),
         },
     }
 
@@ -46,7 +46,7 @@ async def create_category(category_data: CategoryRequest) -> dict:
 @router.get("/categories")
 async def list_categories() -> dict:
 
-    categories = category_service.categories
+    categories = category_service.categories or []
 
     return {
         KEY_MESSAGE: "Categories retrieved",
@@ -54,7 +54,7 @@ async def list_categories() -> dict:
             {
                 KEY_ID: category.id,
                 KEY_NAME: category.name,
-                KEY_TYPE: category.type.value,
+                KEY_TYPE: category.type,
             }
             for category in categories
         ],

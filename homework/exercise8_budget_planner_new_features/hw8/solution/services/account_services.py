@@ -19,14 +19,20 @@ class AccountService:
     @property
     def accounts(self) -> list[Account]:
         accounts = self._account_repository.get_all()
-        return [account for account in accounts if not account.is_deleted]
+        active_accounts: list[Account] = []
+        for account in accounts:
+            if not account.is_deleted:
+                active_accounts.append(account)
+        return active_accounts
 
     @property
     def net_worth(self) -> Decimal:
-        return sum(
-            (self.balance(account.id) for account in self.accounts),
-            Decimal("0"),
-        )
+        total_balance = []
+
+        for account in self.accounts:
+            total_balance.append(self.balance(account.id))
+        result = sum(total_balance, Decimal("0"))
+        return result
 
     def add(self, account: Account) -> Account:
         return self._account_repository.create(account)
@@ -54,17 +60,17 @@ class AccountService:
         balance = Decimal("0")
 
         transactions = self._transaction_repository.get_all()
-        categories = {
-            category.id: category for category in self._category_repository.get_all()
-        }
+        categories = {}
+        for current_category in self._category_repository.get_all():
+            categories[current_category.id] = current_category
 
         for transaction in transactions:
             if transaction.account_id != account_id or transaction.is_deleted:
                 continue
 
-            category = categories[transaction.category_id]
+            transaction_category = categories[transaction.category_id]
 
-            if category.type == CategoryType.INCOME:
+            if transaction_category.type == CategoryType.INCOME:
                 balance += transaction.amount
             else:
                 balance -= transaction.amount

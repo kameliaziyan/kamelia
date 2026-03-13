@@ -1,8 +1,10 @@
 from fastapi import APIRouter, UploadFile
 from fastapi.responses import FileResponse
 from solution.services.csv_zip_service import CSVZipService
+from starlette.background import BackgroundTask
+import os
 
-#KEY_MESSAGE = "message"
+# KEY_MESSAGE = "message"
 router = APIRouter()
 service = CSVZipService()
 
@@ -17,6 +19,7 @@ async def export_data() -> FileResponse:
         zip_path,
         media_type="application/zip",
         filename="budget_backup.zip",
+        background=BackgroundTask(os.remove, zip_path),
     )
 
 
@@ -31,5 +34,10 @@ async def import_data(file: UploadFile) -> dict:
     try:
         service.import_data(zip_path)
     except ValueError as error:
+        if os.path.exists(zip_path):
+            os.remove(zip_path)
         return {"message": str(error)}
+
+    if os.path.exists(zip_path):
+        os.remove(zip_path)
     return {"message": "Data imported successfully"}

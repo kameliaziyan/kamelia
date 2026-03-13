@@ -5,7 +5,7 @@ import zipfile
 class CSVZipService:
     data_dir = Path("data")
 
-    required_files= [
+    required_files = [
         "accounts.csv",
         "categories.csv",
         "transactions.csv",

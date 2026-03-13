@@ -38,7 +38,10 @@ async def create_transaction(transaction_data: TransactionRequest) -> dict:
         date=transaction_data.date,
     )
 
-    created_transaction = transaction_service.add(transaction)
+    try:
+        created_transaction = transaction_service.add(transaction)
+    except ValueError as error:
+        return {KEY_MESSAGE: str(error)}
 
     return {
         KEY_MESSAGE: "Transaction created successfully",
@@ -77,3 +80,12 @@ async def remove_transaction(transaction_id: int) -> dict:
 
     transaction_service.remove(transaction_id)
     return {KEY_MESSAGE: "Transaction removed successfully"}
+
+
+@router.get("/transaction-history")
+async def list_transaction_history() -> dict:
+    history = transaction_service.transaction_history()
+    return {
+        KEY_MESSAGE: "Transaction history retrieved",
+        KEY_DATA: history,
+    }

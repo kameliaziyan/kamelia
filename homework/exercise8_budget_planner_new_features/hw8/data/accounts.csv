@@ -1,3 +1,9 @@
 id,name,opening_balance,is_deleted
 1,bank,2000,True
-2,bank2,1500,False
+2,bank2,1500,True
+3,kamelia,2000,False
+4,new account,3000,True
+5,account3,10000,False
+6,test account,4000,False
+7,transfer,20000,True
+8,test,2000,True

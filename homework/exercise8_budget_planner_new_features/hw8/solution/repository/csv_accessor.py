@@ -17,7 +17,8 @@ class CsvFileAccessor:
 
         with open(self.file_path, "r", newline="", encoding="utf-8") as file_obj:
             reader = csv.DictReader(file_obj)
-            return list(reader)
+            rows = list(reader)
+            return rows
 
     def write(self, rows: List[Dict[str, Any]]) -> None:
 

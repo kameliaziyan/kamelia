@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
-from typing import Generic, List, Type, TypeVar
-
+from typing import Dict, Generic, List, Type, TypeVar, Callable
+from solution.models.category import CategoryType
 from solution.repository.csv_accessor import CsvFileAccessor
 
 ModelT = TypeVar("ModelT")
@@ -42,12 +42,25 @@ class BaseRepository(Generic[ModelT]):
 
     def get_all(self) -> List[ModelT]:
         rows = self.accessor.read()
-        return [self.model_type(**self._convert_types(row)) for row in rows]
+        items: list[ModelT] = []
+        for row in rows:
+            converted_row = self._convert_types(row)
+            items.append(self.model_type(**converted_row))
+        return items
 
     def delete(self, item_id: int) -> None:
         rows = self.accessor.read()
-        rows = [row for row in rows if int(row[ID]) != item_id]
-        self.accessor.write(rows)
+        filterd_rows = []
+        item_found = False
+        for row in rows:
+            if int(row[ID]) == item_id:
+                item_found = True
+                continue
+            filterd_rows.append(row)
+
+        if not item_found:
+            raise ValueError("Item not found")
+        self.accessor.write(filterd_rows)
 
     def update(self, item: ModelT) -> ModelT:
         rows = self.accessor.read()
@@ -57,31 +70,45 @@ class BaseRepository(Generic[ModelT]):
         for result, row in enumerate(rows):
             if int(row[ID]) == item_id:
                 rows[result] = vars(item)
-
-        self.accessor.write(rows)
-        return item
+                self.accessor.write(rows)
+                return item
+        raise ValueError("Item not found.")
 
     def _convert_types(self, row: dict) -> dict:
         result = row.copy()
-
-        identifier = result.get(ID)
-        if identifier is not None:
-            result[ID] = int(identifier)
-
-        opening_balance = result.get("opening_balance")
-        if opening_balance is not None:
-            result["opening_balance"] = Decimal(opening_balance)
-
-        amount = result.get("amount")
-        if amount is not None:
-            result["amount"] = Decimal(amount)
-
-        is_deleted = result.get("is_deleted")
-        if is_deleted is not None:
-            result["is_deleted"] = is_deleted == "True"
-
-        date = result.get("date")
-        if date is not None:
-            result["date"] = date.fromisoformat(date)
-
+        self._apply_converters(
+            result,
+            {
+                ID: int,
+                "account_id": int,
+                "category_id": int,
+                "from_account_id": int,
+                "to_account_id": int,
+                "opening_balance": Decimal,
+                "amount": Decimal,
+                "date": date.fromisoformat,
+                "type": self._convert_category_type,
+            },
+        )
+        self._convert_bool_field(result, "is_deleted")
         return result
+
+    def _apply_converters(
+        self,
+        row: dict,
+        converters: Dict[str, Callable[[str], object]],
+    ) -> None:
+        for field, converter in converters.items():
+            value = row.get(field)
+            if value is not None:
+                row[field] = converter(value)
+
+    def _convert_bool_field(self, row: dict, field: str) -> None:
+        value = row.get(field)
+        if value is not None:
+            row[field] = value == "True"
+
+    def _convert_category_type(self, value: str) -> CategoryType:
+        if "CategoryType." in value:
+            value = value.split(".")[1].lower()
+        return CategoryType(value)

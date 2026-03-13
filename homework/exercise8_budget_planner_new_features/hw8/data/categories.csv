@@ -1,0 +1,6 @@
+id,name,type
+1,salary,CategoryType.INCOME
+2,beauty,CategoryType.EXPENSE
+3,food,CategoryType.EXPENSE
+5,new,CategoryType.EXPENSE
+6,test,CategoryType.INCOME
